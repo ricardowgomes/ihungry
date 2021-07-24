@@ -1,0 +1,23 @@
+$rose: #F28095;
+$lightGreen: #B4D966;
+$lightYellow: #f2f0e6;
+$yellow: #F2CE16;
+$gold:#F2BB16;
+$white: #F2F2F2;
+$brown: #8C2F12;
+$red: #ce4419;
+$darkGray: #555555;
+
+@mixin allFlexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin displayFlex($justifyContent: space-between, $alignItems:flex-end, $direction:row) {
+  display: flex;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+  flex-direction: $direction;
+}
+

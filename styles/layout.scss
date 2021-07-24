@@ -1,9 +1,24 @@
-// See: https://sass-lang.com/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+@import './variables';
+@import './header';
+@import './nav';
+@import './main';
+@import './food-type';
+
+
+html {
+  font-size: 93.75%; /* 15px */
+}
 
 body {
-  background-color: #EEE;
-
-  h1 {
-    color: #244751;
-  }
+  background-color: $lightYellow;
+  color: $brown;
 }
+
+

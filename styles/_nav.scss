@@ -1,0 +1,23 @@
+@import './variables';
+
+nav {
+  background-color: $gold;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem 2rem;
+  text-align: center;
+  font-size: 2rem;
+  position: fixed;
+  bottom: 0;
+  border-radius: 1rem 1rem 0 0;
+
+  i {
+    color: $brown;
+
+    &:hover {
+      color: $red;
+    }
+  }
+}

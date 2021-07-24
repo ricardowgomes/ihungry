@@ -1,0 +1,50 @@
+@import './variables';
+
+header {
+  top: 0;
+  background-color: $gold;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem;
+  text-align: center;
+  font-size: 2rem;
+  position: fixed;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 0.5rem;
+
+  .fa-search {
+    color: $brown;
+    width: 2.5rem;
+
+    &:hover {
+      color: $red;
+    }
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}

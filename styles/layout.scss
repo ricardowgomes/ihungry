@@ -1,9 +1,71 @@
 // See: https://sass-lang.com/
+:root {
+  --color-rose: #F28095;
+  --color-green: #B4D966;
+  --color-yellow: #F2CE16;
+  --color-gold:#F2BB16;
+  --color-white: #F2F2F2;
+  --color-brown: #8C2F12;
+  --color-red: #ce4419;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html {
+  font-size: 93.75%; /* 15px */
+}
 
 body {
-  background-color: #EEE;
+  display: flex;
+  background-color: var(--color-white);
+  color: var(--color-brown);
 
-  h1 {
-    color: #244751;
+  header {
+    background-color: var(--color-gold);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2rem;
+    text-align: center;
+    font-size: 2rem;
+    position: fixed;
+    border-radius: 0 0 1rem 1rem;
+
+    .fa-search {
+      color: var(--color-brown);
+      width: 2.5rem;
+    }
+
+    .fa-search:hover {
+      color: var(--color-red);
+    }
+  }
+}
+
+nav {
+  background-color: var(--color-gold);
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem 2rem;
+  text-align: center;
+  font-size: 2rem;
+  position: fixed;
+  bottom: 0;
+  border-radius: 1rem 1rem 0 0;
+
+  i {
+    color: var(--color-brown);
+  }
+
+  i:hover {
+    color: var(--color-red);
   }
 }

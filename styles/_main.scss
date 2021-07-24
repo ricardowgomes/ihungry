@@ -1,0 +1,32 @@
+@import './variables';
+
+main {
+  margin-top: 150px;
+  width: 100%;
+
+  #products {
+    @include displayFlex(space-between, center, column);
+
+    .product-card {
+      @include displayFlex(space-between, stretch, column);
+      width: 95%;
+      background-color: $white;
+      border-radius: 1rem 1rem 1rem 1rem;
+      box-shadow: 0 2px 5px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+
+      span {
+        @include displayFlex(space-between, flex-end);
+        padding: 0.5rem;
+      }
+
+
+      img {
+        height: 150px;
+        border-radius: 1rem 1rem 0 0;
+        object-fit: cover;
+        object-position: center center;
+      }
+    }
+  }
+}

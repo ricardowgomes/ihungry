@@ -25,30 +25,36 @@
 </head>
 
 <body>
-  <header>
-    <h2>
-      iHungry
-    </h2>
+  <%- include('partials/_header') %>
 
-    <a href="#" class="search">
-      <i class="fas fa-search"></i>
-    </a>
-  </header>
+    <main>
+      <div id="products">
+        <div class="product-card">
+          <img src="./images/pizza.jpeg" alt="pizza">
+          <span>
+            <div>
+              <h3>Pizza</h3>
+              <p>This pizza is delicious!</p>
+            </div>
+            <p id="price">$0.00</p>
+          </span>
+        </div>
 
-  <nav>
-    <a href="#" class="menu">
-      <i class="fas fa-book-open"></i>
-    </a>
-    <a href="#" class="orders">
-      <i class="far fa-list-alt"></i>
-    </a>
-    <a href="#" class="shopping-cart">
-      <i class="fas fa-shopping-cart"></i>
-    </a>
-    <a href="#" class="notification">
-      <i class="far fa-envelope"></i>
-    </a>
-  </nav>
+        <div class="product-card">
+          <img src="./images/pizza.jpeg" alt="pizza">
+          <span>
+            <div>
+              <h3>Pizza</h3>
+              <p>This pizza is delicious!</p>
+            </div>
+            <p id="price">$0.00</p>
+          </span>
+        </div>
+
+      </div>
+    </main>
+
+    <%- include('partials/_nav') %>
 </body>
 
 </html>

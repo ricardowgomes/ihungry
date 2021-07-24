@@ -12,6 +12,7 @@ header {
   font-size: 2rem;
   position: fixed;
   border-radius: 0 0 1rem 1rem;
+  margin-bottom: 0.5rem;
 
   .fa-search {
     color: $brown;
@@ -47,5 +48,3 @@ header {
 @media only screen and (min-width: 1200px) {
 
 }
-
-

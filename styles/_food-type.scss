@@ -1,0 +1,30 @@
+@import './variables';
+
+#food-type {
+  @include displayFlex(space-between, center, row);
+  flex-wrap: nowrap;
+  margin: 0 0.5rem;
+
+  div {
+    @include displayFlex(space-between, center, column);
+    width: 65px;
+    background-color: $lightGreen;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: $darkGray;
+    margin-bottom: 1rem;
+
+    h4 {
+      padding-top: 0.5rem;
+      font-size: 90%;
+      font-weight: 200;
+    }
+
+    &:hover {
+      color: $brown;
+    }
+  }
+
+
+
+}

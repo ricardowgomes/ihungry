@@ -17,15 +17,28 @@ main {
 
       span {
         @include displayFlex(space-between, flex-end);
-        padding: 0.5rem;
+        padding: 1rem;
       }
-
 
       img {
         height: 150px;
         border-radius: 1rem 1rem 0 0;
         object-fit: cover;
         object-position: center center;
+      }
+
+      #price {
+        font-weight: 600;
+      }
+
+      hr {
+        border-top: solid 2px $red;
+        margin: 0 1.5rem;
+      }
+
+      > p {
+        padding: 1rem;
+        color: $darkGray;
       }
     }
   }

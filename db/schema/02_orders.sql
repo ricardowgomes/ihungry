@@ -6,4 +6,4 @@ CREATE TABLE orders (
   order_created TIMESTAMP,
   order_start TIMESTAMP,
   order_end TIMESTAMP
-)
+);

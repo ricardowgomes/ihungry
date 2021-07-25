@@ -1,0 +1,49 @@
+@import './variables';
+
+.orders {
+  @include displayFlex(flex-start, center, column);
+  color: $darkGray;
+  // margin: 1.5rem;
+  // width: 95%;
+
+  #current-order {
+    @include displayFlex(space-between, center, column);
+    width: 95%;
+    background-color: $white;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    div {
+      @include displayFlex(space-around, center, row);
+      width: 100%;
+
+      .list-current-order {
+        @include displayFlex(flex-start, flex-start, column);
+      }
+    }
+
+    p:last-child {
+      margin-top: 1rem;
+      font-size: 120%;
+      font-weight: 200;
+    }
+  }
+
+  #orders-container {
+    @include displayFlex(space-between, center, row);
+
+    background-color: $white;
+    margin: 1rem;
+    width: 95%;
+    padding: 1rem;
+    border-radius: 1rem 1rem 1rem 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    table {
+      width: 100%;
+    }
+
+  }
+}

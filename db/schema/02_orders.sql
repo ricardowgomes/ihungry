@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS orders CASCADE;
 
-CREATE TABLE orders {
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INT REFERENCES users(id) ON DELETE CASCADE,
   order_created TIMESTAMP,
   order_start TIMESTAMP,
   order_end TIMESTAMP
-}
+);

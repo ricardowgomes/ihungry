@@ -10,7 +10,10 @@ VALUES
 ('Peter Dinklage', 'tyrion_l@gmail.com'),
 ('Natalie Dormer', 'margaery@gmail.com'),
 ('Maisie Williams', 'aryastark@gmail.com'),
-('Pedro Pascal', 'oberyn@gmail.com'),
 ('Sean Bean', 'eddard_stark@gmail.com');
+
+INSERT INTO users (name, email, is_admin)
+VALUES
+('Pedro Pascal', 'oberyn@gmail.com', true);
 
 

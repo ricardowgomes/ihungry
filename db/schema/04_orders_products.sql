@@ -5,4 +5,4 @@ CREATE TABLE orders_products (
   product_id INT REFERENCES products(id) ON DELETE CASCADE,
   order_id INT REFERENCES orders(id) ON DELETE CASCADE,
   quantity INT NOT NULL DEFAULT 1
-)
+);

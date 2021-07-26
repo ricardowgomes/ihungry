@@ -8,5 +8,5 @@ CREATE TABLE products (
   price DECIMAL(6,2) NOT NULL,
   prep_time INT NOT NULL DEFAULT 20,
   thumbnail_picture_url VARCHAR(255) NOT NULL
-
 );
+

@@ -6,5 +6,7 @@ CREATE TABLE products (
   type VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   price DECIMAL(6,2) NOT NULL,
+  prep_time INT NOT NULL DEFAULT 20,
   thumbnail_picture_url VARCHAR(255) NOT NULL
-)
+);
+

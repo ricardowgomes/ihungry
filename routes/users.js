@@ -21,6 +21,9 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.post("/addToCart/", (req,res)=>{
+    console.log(req.body);
+  })
   return router;
 };
 

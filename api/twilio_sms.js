@@ -9,7 +9,7 @@ const twilioNumber = process.env.TWILIO_NUMBER;
 // const customerNumber = process.env.CUSTOMER_NUMBER;
 
 const twilio = require('twilio')(accountSid, authToken);
-
+require('dotenv').config();
 
 // message to user when submit button is triggered
 twilio.messages

@@ -6,16 +6,19 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
+const { getAllProducts, renderProducts } = require("../temp/getProducts");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM widgets`;
-    console.log(query);
-    db.query(query)
+    // let query = `SELECT * FROM widgets`;
+    // console.log(query);
+    // db.query(query)
+    getAllProducts({})
       .then(data => {
-        const widgets = data.rows;
-        res.json({ widgets });
+        // const widgets = data;
+        res.json(data);
+        renderProducts(data);
       })
       .catch(err => {
         res

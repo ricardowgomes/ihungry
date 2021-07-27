@@ -30,21 +30,24 @@
   <%- include('partials/_header') %>
 
     <main>
-      <!-- Various products + types of food -->
-      <%- include('partials/_products') %>
+      <!-- <%- include('partials/_products') %> -->
 
-        <!-- Single product page -->
-        <!-- <%- include('partials/_product-view') %> -->
+      <!-- Single product page -->
+      <!-- <%- include('partials/_product-view') %> -->
 
-        <!-- Order page -->
-        <section class="orders">
-          <!-- <%- include('partials/_orders') %> -->
-        </section>
+      <!-- Order page -->
+      <section class="orders">
+        <!-- <%- include('partials/_orders') %> -->
+      </section>
 
 
-        <!-- Vendor page -->
+      <!-- Vendor page -->
 
-        <!-- Cart page -->
+      <!-- Cart page -->
+      <div class="modal cart">
+        <%- include('partials/_cart') %>
+      </div>
+
     </main>
 
     <%- include('partials/_nav') %>

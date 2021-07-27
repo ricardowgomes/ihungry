@@ -88,7 +88,7 @@ const createOrderElement = (ordersData) => {
     orderStatus = `Great job! This order is finished!`;
 
   } else if (ordersData.order_start) {
-    orderStatus = `You have until to finish this order ${ordersData.orderStart + ordersData.prepTime}`;
+    orderStatus = `You have to finish this order until ${ordersData.order_start + ordersData.prep_time}`;
 
   } else {
     orderStatus = `Let the customer know that you are ready to start this order`;
@@ -97,9 +97,9 @@ const createOrderElement = (ordersData) => {
   const $vendorMain = $('<main>');
   const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
   $orderContainer.append(`<span><p>#${ordersData.order_id}</p><p>${orderStatus}</p></span>
-<hr>
-<span>${ordersData.order_created}</span>
-<span class="items-ordered"><p>${ordersData.quantity}</p><p>${ordersData.product_name}</p><p>${ordersData.product_price}</p></span>`);
+  <hr>
+  <span>${ordersData.order_created}</span>
+  <span class="items-ordered"><p>${ordersData.quantity}</p><p>${ordersData.product_name}</p><p>${ordersData.product_price}</p></span>`);
 
   const subTotal = 20;
   const totals = `

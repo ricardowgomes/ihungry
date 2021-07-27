@@ -12,12 +12,17 @@ nav {
   position: fixed;
   bottom: 0;
   border-radius: 1rem 1rem 0 0;
+  margin-top: 2rem;
 
-  i {
-    color: $brown;
+  a {
+    text-decoration: none;
 
-    &:hover {
-      color: $red;
+    i {
+      color: $brown;
+
+      &:hover {
+       color: $red;
+      }
     }
   }
 }

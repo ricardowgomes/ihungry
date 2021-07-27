@@ -33,20 +33,37 @@
       <!-- Single product page -->
       <%- include('partials/_product-view') %>
 
+      <%- include('partials/_cart') %>
+
+      <%- include('./partials/_type-cards') %>
       <!-- Various products + types of food -->
-      <%- include('partials/_products') %>
+        <div id="products">
+        </div>
 
       <!-- Order page -->
       <!-- <%- include('partials/_orders') %> -->
 
-        <!-- Vendor page -->
-        <!-- <%-  %> -->
 
-        <!-- Cart page -->
-        <!-- <%-  %> -->
+
+
+      <!-- <section class="orders">
+        <%- include('partials/_orders') %>
+      </section> -->
+
+      <!-- <div class="modal vendor">
+        <%- include('partials/_vendor') %>
+      </div> -->
+
+
+      <!-- <div class="modal cart">
+        <%- include('partials/_cart') %>
+      </div> -->
+
     </main>
 
     <%- include('partials/_nav') %>
+
+
 </body>
 
 </html>

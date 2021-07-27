@@ -6,16 +6,17 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
+const { getAllProducts, renderProducts } = require("../public/scripts/getProducts");
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-    let query = `SELECT * FROM widgets`;
-    console.log(query);
-    db.query(query)
+  router.post("/", (req, res) => {
+    const options = req.body;
+
+    getAllProducts(options)
       .then(data => {
-        const widgets = data.rows;
-        res.json({ widgets });
+        const menu = data;
+        res.json({ menu });
       })
       .catch(err => {
         res
@@ -23,5 +24,19 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  router.post("/product_view", (req, res) => {
+    const productId = req.body.id;
+    db.query(`SELECT * FROM products WHERE products.id = ${productId};`)
+      .then(data => {
+        const menu = data.rows;
+        res.json({ menu });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  })
   return router;
 };

@@ -1,38 +1,32 @@
-<section class="orders">
-  <!-- When order_created from DB is NOT NULL and checks for user_id: -->
-  <div id="current-order">
-
-    <div>
-      <span>Counter</span>
-
-      <span class="list-current-order">
-        <p>order #</p>
-        <p>Uniquely Creative Burger</p>
-        <p>Macho Nacho Burger</p>
-        <p>Black and Blue Burger</p>
-        <p>Total price <strong>$0.00</strong></p>
-      </span>
-    </div>
-
-    <p>Status: We are ready to feed you!</p>
+<div id="current-order">
+  <div>
+    <span>Counter</span>
+    <span class="list-current-order">
+      <p>order #</p>
+      <p>Uniquely Creative Burger</p>
+      <p>Macho Nacho Burger</p>
+      <p>Black and Blue Burger</p>
+      <p>Total price <strong>$0.00</strong></p>
+    </span>
   </div>
 
-  <!-- All items when order_end from DB is NOT NULL and checks for user_id: -->
-  <div id="orders-container">
-    <table>
-      <thead>
-        <th>Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Order Placed</th>
-      </thead>
+  <p>Status: We are ready to feed you!</p>
+</div>
 
-      <tbody>
-        <td>(date from DB)</td>
-        <td>(date from DB)</td>
-        <td>(date from DB)</td>
-        <td>(date from DB)</td>
-      </tbody>
-    </table>
-  </div>
-</section>
+<div id="orders-container">
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Order Placed</th>
+    </thead>
+
+    <tbody>
+      <td>(date from DB)</td>
+      <td>(date from DB)</td>
+      <td>(date from DB)</td>
+      <td>(date from DB)</td>
+    </tbody>
+  </table>
+</div>

@@ -32,40 +32,59 @@
   <%- include('partials/_header') %>
 
     <main>
+      <div id='vendors-main'></div>'>
 
+      </div>
       <!-- Single product page -->
       <%- include('partials/_product-view') %>
 
-      <%- include('partials/_cart') %>
+        <%- include('partials/_cart') %>
 
-      <%- include('./partials/_type-cards') %>
-      <!-- Various products + types of food -->
-        <div id="products">
-        </div>
+          <%- include('./partials/_type-cards') %>
+            <!-- Various products + types of food -->
+            <div id="products">
+            </div>
 
-      <!-- Order page -->
-      <!-- <%- include('partials/_orders') %> -->
-
-
+            <!-- Order page -->
+            <!-- <%- include('partials/_orders') %> -->
 
 
-      <section class="orders">
-          <!-- <%- include('partials/_orders') %> -->
-        </section>
 
-      <!-- <div class="modal vendor">
+
+            <section class="orders">
+              <!-- <%- include('partials/_orders') %> -->
+            </section>
+
+            <!-- <div class="modal vendor">
         <%- include('partials/_vendor') %>
       </div> -->
 
 
 
-        <!-- <div class="modal cart">
+            <!-- <div class="modal cart">
         <%- include('partials/_cart') %>
       </div> -->
 
     </main>
 
-    <%- include('partials/_nav') %>
+    <nav id='navbar'>
+      <a href="/" class="menu">
+        <i class="fas fa-book-open"></i>
+      </a>
+
+      <a href="/api/users/orders" class="orders">
+        <i class="far fa-list-alt"></i>
+      </a>
+
+      <a href="#" class="shopping-cart">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+
+      <a href="#" class="notification">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </nav>
+
 
 
 </body>

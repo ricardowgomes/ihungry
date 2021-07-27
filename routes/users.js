@@ -69,6 +69,24 @@ module.exports = (db) => {
 
   });
 
+  router.get("/orders", (req, res) => {
+    const userId = req.cookies.user_id;
+    console.log(userId);
+
+    getAllPastOrdersById(userId)
+      .then(data => {
+        const pastOrders = data.rows;
+        res.json(pastOrders);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+
+
+  });
+
 
   return router;
 };

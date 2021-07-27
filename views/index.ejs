@@ -32,21 +32,32 @@
   <%- include('partials/_header') %>
 
     <main>
+
+      <!-- Single product page -->
+      <%- include('partials/_product-view') %>
+
+      <%- include('partials/_cart') %>
+
       <%- include('./partials/_type-cards') %>
+      <!-- Various products + types of food -->
         <div id="products">
         </div>
 
+      <!-- Order page -->
+      <!-- <%- include('partials/_orders') %> -->
 
 
-        <!-- <%- include('partials/_product-view') %> -->
 
-        <section class="orders">
+
+      <section class="orders">
           <!-- <%- include('partials/_orders') %> -->
         </section>
 
-        <!-- <div class="modal vendor">
+      <!-- <div class="modal vendor">
         <%- include('partials/_vendor') %>
       </div> -->
+
+
 
         <!-- <div class="modal cart">
         <%- include('partials/_cart') %>

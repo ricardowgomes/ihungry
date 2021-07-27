@@ -1,4 +1,4 @@
-<div id='cart-container'>
+<div hidden id='cart-container'>
   <span class='individual-item'>
     <p>Quantity</p>
     <h4>Black and Blue Burger</h4>
@@ -9,10 +9,13 @@
   </span>
   <hr>
   <span class='total-price'>Total price: $00.00</span>
+
+  <form action="POST" action="/api/users/add" class='checkout'>
+    <button id='checkout' type='submit'>
+      checkout
+    </button>
+  </form>
+
 </div>
 
-<form action="POST" action="/api/users/add" class='checkout'>
-  <button id='checkout' type='submit'>
-    checkout
-  </button>
-</form>
+

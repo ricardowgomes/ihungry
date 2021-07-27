@@ -1,5 +1,12 @@
 -- Users table seeds here (Example)
 -- Need to set same default mobile for demo since we only will have one number
+-- INSERT INTO users (name, email)
+-- VALUES
+
+INSERT INTO users (name, email, is_admin)
+VALUES
+('Pedro Pascal', 'oberyn@gmail.com', true);
+
 INSERT INTO users (name, email)
 VALUES
 ('Emilia Clarke', 'daeneryt@gmail.com'),
@@ -11,9 +18,5 @@ VALUES
 ('Natalie Dormer', 'margaery@gmail.com'),
 ('Maisie Williams', 'aryastark@gmail.com'),
 ('Sean Bean', 'eddard_stark@gmail.com');
-
-INSERT INTO users (name, email, is_admin)
-VALUES
-('Pedro Pascal', 'oberyn@gmail.com', true);
 
 

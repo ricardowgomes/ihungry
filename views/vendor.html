@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant View!</title>
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+  <!-- External Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;0,900;1,200;1,400;1,600;1,900&display=swap"
+    rel="stylesheet">
+
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+
+<body>
+  <header class='vendor-view'>
+    <a href="/admin"><img src="./images/ihungry.svg" alt="ihungry-logo"></a>
+  </header>
+
+  <main id='vendors-main'>
+    <div id="vendor-order-container">
+      <span>
+        <p> #20154 </p>
+        <p> Status </p>
+      </span>
+
+      <hr>
+
+      <span>Feb 6th, 2021 - 11:45 AM</span>
+      <span class="items-ordered">
+        <p> Quantity </p>
+        <p> Names </p>
+        <p> $0.00 </p>
+      </span>
+      <span>
+        <p> Subtotal </p>
+        <p> $32.99 </p>
+      </span>
+
+      <hr>
+
+      <span>
+        <p> Delivery </p>
+        <p> Pickup </p>
+      </span>
+      <span>
+        <p> GST (5%) </p>
+        <p> $1.65 </p>
+      </span>
+      <span>
+        <p> Total (CAD) </p>
+        <p> $34.64 </p>
+      </span>
+    </div>
+
+  </main>
+
+  <nav>
+    <a href="#" class="todo-orders">
+      <i class="fas fa-tasks"></i>
+    </a>
+    <a href="#" class="orders">
+      <i class="far fa-list-alt"></i>
+    </a>
+    <a href="#" class="notification">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </nav>
+</body>
+
+</html>

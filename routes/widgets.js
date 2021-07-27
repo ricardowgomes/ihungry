@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllProducts, renderProducts } = require("../public/scripts/getProducts");
+const { getAllProducts } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.post("/", (req, res) => {
@@ -24,5 +24,19 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  router.post("/product_view", (req, res) => {
+    const productId = req.body.id;
+    db.query(`SELECT * FROM products WHERE products.id = ${productId};`)
+      .then(data => {
+        const menu = data.rows;
+        res.json({ menu });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  })
   return router;
 };

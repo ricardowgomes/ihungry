@@ -2,11 +2,10 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
-
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant View!</title>
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -29,34 +28,59 @@
 </head>
 
 <body>
-  <%- include('partials/_header') %>
+  <header class='vendor-view'>
+    <a href="/admin"><img src="./images/ihungry.svg" alt="ihungry-logo"></a>
+  </header>
 
-    <main>
-      <%- include('./partials/_type-cards') %>
-        <div id="products">
-        </div>
+  <main>
+    <div id="vendor-order-container">
+      <span>
+        <p> #20154 </p>
+        <p> Status </p>
+      </span>
 
+      <hr>
 
+      <span>Feb 6th, 2021 - 11:45 AM</span>
+      <span class="items-ordered">
+        <p> Quantity </p>
+        <p> Names </p>
+        <p> $0.00 </p>
+      </span>
+      <span>
+        <p> Subtotal </p>
+        <p> $32.99 </p>
+      </span>
 
-        <!-- <%- include('partials/_product-view') %> -->
+      <hr>
 
-        <section class="orders">
-          <!-- <%- include('partials/_orders') %> -->
-        </section>
+      <span>
+        <p> Delivery </p>
+        <p> Pickup </p>
+      </span>
+      <span>
+        <p> GST (5%) </p>
+        <p> $1.65 </p>
+      </span>
+      <span>
+        <p> Total (CAD) </p>
+        <p> $34.64 </p>
+      </span>
+    </div>
 
-        <!-- <div class="modal vendor">
-        <%- include('partials/_vendor') %>
-      </div> -->
+  </main>
 
-        <!-- <div class="modal cart">
-        <%- include('partials/_cart') %>
-      </div> -->
-
-    </main>
-
-    <%- include('partials/_nav') %>
-
-
+  <nav>
+    <a href="#" class="todo-orders">
+      <i class="fas fa-tasks"></i>
+    </a>
+    <a href="#" class="orders">
+      <i class="far fa-list-alt"></i>
+    </a>
+    <a href="#" class="notification">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </nav>
 </body>
 
 </html>

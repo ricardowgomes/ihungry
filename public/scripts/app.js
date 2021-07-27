@@ -1,10 +1,3 @@
-
-// const filterProducts = () => {
-//   const object = {};
-
-//   return object;
-// };
-
 const renderMenu = function (menuItems) {
   // Code to work with menu items in object format to render them on client side
   $('#products').empty();
@@ -51,14 +44,3 @@ $(document).ready(() => {
 
 
 });
-
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/api/users"
-//   }).done((users) => {
-//     for(user of users) {
-//       $("<div>").text(user.name).appendTo($("body"));
-//     }
-//   });;
-// });

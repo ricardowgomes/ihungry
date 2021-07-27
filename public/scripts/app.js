@@ -78,16 +78,19 @@ $(document).ready(()=>{
     });
     $('#product').slideUp("slow");
   })
-  // $('#products').on ("click","#1", function() {
-  //   console.log($(this)['0'].children['0'].src)
-  //   console.log($(this)['0'].children['1'].children['0'].children['0'].textContent);
-  //   console.log($(this)['0'].children['1'].children['0'].children['1'].textContent);
-  //   renderProductDetail();
-  //   $('#product').slideDown("slow");
-  // })
-  $('.shopping-cart').on('click', function() {
 
+  $('.shopping-cart').on('click',function(){
+    $.ajax("/api/users/shoppingCart", {method:'GET'})
+      .then(cartData => {
+        console.log(cartData);
+        let totalPrice = 0;
+        for (product of cartData) {
+          totalPrice += parseInt(product.price);
+        }
+        console.log(totalPrice);
+      });
   })
+
 
   loadMenu();
 

@@ -7,6 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
+const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -21,6 +22,7 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
 
   router.post("/addToCart/", (req,res)=>{
     db.query(`INSERT INTO products_carts (cart_id, product_id, quantity) VALUES (1,${req.body.product_id},1)`)
@@ -61,12 +63,27 @@ module.exports = (db) => {
     const itemId = req.body.itemid;
     console.log(itemId);
     db.query(`DELETE FROM products_carts WHERE id = ${itemId}`)
+
+  router.get("/admin", (req, res) => {
+    getAllCurrentOrders(20)
+      .then(data => {
+        const currentOrders = data.rows;
+        res.json({ currentOrders });
+        // sumofOrderById(currentOrders.orderId);
+      })
+      // .then(data2 => {
+
+      // })
+
       .catch(err => {
         res
           .status(500)
           .json({ error: err.message });
       });
-  })
+
+  });
+
+
   return router;
 };
 

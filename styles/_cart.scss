@@ -6,6 +6,7 @@
   #cart-container {
     @include displayFlex(flex-start, flex-end, column);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: $white;
     width: 90%;
     padding: 1rem;
     color: $darkGray;
@@ -73,5 +74,3 @@
     }
   }
 }
-
-

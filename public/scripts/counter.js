@@ -1,7 +1,7 @@
-$(document).ready(() => {
+$(() => {
 
   const twentyMinutes = 60 * 20,
-  display = $('#counter');
+  const display = $('#counter');
   $('#checkout').on('click', countDown(twentyMinutes, display));
 
 });
@@ -28,6 +28,5 @@ const countDown = function (duration, display) {
 
 
 
-// function myFunction() {
 //   document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
-// }
+

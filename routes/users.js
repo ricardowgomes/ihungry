@@ -6,7 +6,7 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -21,6 +21,7 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
   return router;
 };
 

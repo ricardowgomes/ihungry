@@ -20,11 +20,11 @@ const createProductElement = (menuData) => {
   const $span = $('<span>');
   $div.append($img, $span);
   const $div2 = $('<div2>');
-  const $p2 = $('<p2>').attr('id', "price").text(menuData.price);
+  const $p2 = $('<p2>').attr('id', "price").text(`$${menuData.price}`);
   $span.append($div2, $p2);
   const $h3 = $('<h3>').text(menuData.name);
-  const $p = $('<p>').text(menuData.description);
-  $div2.append($h3, $p);
+  // const $p = $('<p>').text(menuData.description);
+  $div2.append($h3);
 
   return $div;
 };

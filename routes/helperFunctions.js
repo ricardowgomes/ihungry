@@ -207,4 +207,20 @@ const sumofOrderById = (orderId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById };
+const checkIfUserIsAdmin = (userId) => {
+  const queryParams = [userId];
+
+  // Inicial string
+  let queryString = `SELECT is_admin FROM users WHERE id = $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin };

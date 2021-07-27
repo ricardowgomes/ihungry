@@ -33,51 +33,49 @@
   </header>
 
   <main id='vendors-main'>
-    <div id="vendor-order-container">
-      <span>
-        <p> #20154 </p>
-        <p> Status </p>
-      </span>
-
-      <hr>
-
-      <span>Feb 6th, 2021 - 11:45 AM</span>
-      <span class="items-ordered">
-        <p> Quantity </p>
-        <p> Names </p>
-        <p> $0.00 </p>
-      </span>
-      <span>
-        <p> Subtotal </p>
-        <p> $32.99 </p>
-      </span>
-
-      <hr>
-
-      <span>
-        <p> Delivery </p>
-        <p> Pickup </p>
-      </span>
-      <span>
-        <p> GST (5%) </p>
-        <p> $1.65 </p>
-      </span>
-      <span>
-        <p> Total (CAD) </p>
-        <p> $34.64 </p>
-      </span>
+    <div class="modal vendor">
+      <h3>Orders to get done:</h3>
+      <div id="vendor-order-container">
+        <span>
+          <p> #20154 </p>
+          <p> Status </p>
+        </span>
+        <hr>
+        <span>Feb 6th, 2021 - 11:45 AM</span>
+        <span class="items-ordered">
+          <p>Quantity</p>
+          <p> Names </p>
+          <p> $0.00 </p>
+        </span>
+        <span>
+          <p>Subtotal</p>
+          <p>$32.99</p>
+        </span>
+        <hr>
+        <span>
+          <p> Delivery </p>
+          <p> Pickup </p>
+        </span>
+        <span>
+          <p> GST (5%) </p>
+          <p> $1.65 </p>
+        </span>
+        <span>
+          <p> Total (CAD) </p>
+          <p> $34.64 </p>
+        </span>
+      </div>
     </div>
-
   </main>
 
-  <nav>
-    <a href="#" class="todo-orders">
+  <nav id="navbar-vendor">
+    <a href="/api/users/todo_admin" class="todo-orders">
       <i class="fas fa-tasks"></i>
     </a>
-    <a href="#" class="orders">
+    <a href="/api/users/orders_admin" class="orders-vendor">
       <i class="far fa-list-alt"></i>
     </a>
-    <a href="#" class="notification">
+    <a href="/api/users/notification_admin" class="notification-vendor">
       <i class="fas fa-envelope"></i>
     </a>
   </nav>

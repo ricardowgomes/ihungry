@@ -186,4 +186,26 @@ const getAllPastOrders = (limit = 10) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders };
+const sumofOrderById = (orderId) => {
+  const queryParams = [orderId];
+
+  // Inicial string
+  let queryString = `
+  SUM(products.price) AS sum_of_order
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  WHERE orders.id = $1;
+  `;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById };

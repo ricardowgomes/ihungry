@@ -49,4 +49,108 @@ const getAllProducts = (options, limit = 10) => {
     });
 };
 
-module.exports = { getAllProducts };
+// Function get all past orders of a user
+const getAllPastOrdersById = (userId, limit = 10) => {
+  const queryParams = [userId, limit];
+
+  // Inicial string
+  let queryString = `
+  SELECT
+  orders.id AS orderId,
+  products.name AS productName,
+  products.price AS productPrice,
+  orders_products.quantity AS quantity,
+  products.prep_time AS prepTime,
+  orders.order_created AS orderCreated,
+  orders.order_start AS orderStart,
+  orders.order_end AS orderEnd
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  WHERE user_id = $${userId}
+  AND orders.order_end IS NOT NULL `;
+
+  queryParams.push(limit);
+
+  queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+// Function get current orders of a user
+const getCurrentOrderById = (userId, limit = 1) => {
+  const queryParams = [userId, limit];
+
+  // Inicial string
+  let queryString = `
+  SELECT
+  orders.id AS orderId,
+  products.name AS productName,
+  products.price AS productPrice,
+  orders_products.quantity AS quantity,
+  products.prep_time AS prepTime,
+  orders.order_created AS orderCreated,
+  orders.order_start AS orderStart,
+  orders.order_end AS orderEnd
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  WHERE user_id = $${userId}
+  AND orders.order_end IS NULL `;
+
+  queryParams.push(limit);
+
+  queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+// Make a query to database to get all orders to show to the vendor
+const getAllOrders = (limit = 10) => {
+  const queryParams = [limit];
+
+  // Inicial string
+  let queryString = `
+  SELECT
+  orders.id AS orderId,
+  products.name AS productName,
+  products.price AS productPrice,
+  orders_products.quantity AS quantity,
+  products.prep_time AS prepTime,
+  orders.order_created AS orderCreated,
+  orders.order_start AS orderStart,
+  orders.order_end AS orderEnd
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  WHERE orders.order_end IS NULL `;
+
+  queryParams.push(limit);
+
+  queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+module.exports = { getAllProducts, getAllPastOrdersById, getAllOrders };

@@ -1,10 +1,3 @@
-
-// const filterProducts = () => {
-//   const object = {};
-
-//   return object;
-// };
-
 const renderMenu = function (menuItems) {
   // Code to work with menu items in object format to render them on client side
   $('#products').empty();
@@ -29,6 +22,47 @@ const createProductElement = (menuData) => {
   return $div;
 };
 
+const createOrderElement = (ordersData) => {
+  let orderStatus = 'no status';
+  if (ordersData.orderEnd) {
+    orderStatus = `Great job! This order is finished!`;
+
+  } else if (ordersData.orderStart) {
+    orderStatus = `You have until to finish this order ${ordersData.orderStart + ordersData.prepTime}`;
+
+  } else {
+    orderStatus = `Let the customer know that you are ready to start this order`;
+  }
+
+  const $vendorMain = $('<main>');
+  const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
+  $orderContainer.append(`<span><p>#${ordersData.orderId}</p><p>${orderStatus}</p></span>
+  <hr>
+  <span>${ordersData.orderCreated}</span>
+  <span class="items-ordered"><p>${ordersData.quantity}</p><p>${ordersData.name}</p><p>${ordersData.price}</p></span>`);
+
+  const subTotal = ordersData.sum_of_order;
+  const totals = `
+  <span><p>Subtotal</p><p>$${subTotal}</p></span>
+  <hr>
+  <span><p>Delivery</p><p>Pickup</p></span>
+  <span><p>GST (5%)</p><p>$${subTotal * 0.05}</p></span><span>
+  <p>Total (CAD)</p><p> $${subTotal * 0.05 + subTotal}</p></span>`;
+  $orderContainer.append(totals);
+
+  $vendorMain.append($orderContainer);
+
+  return $vendorMain;
+};
+
+const renderVendorOrders = (orders) => {
+  $('#vendors-main').empty();
+  for (const item of orders) {
+    const $itemData = createOrderElement(item);
+    $('#vendors-main').append($itemData);
+  }
+};
+
 $(document).ready(() => {
   // load menu from the server
   const loadMenu = (() => {
@@ -49,16 +83,11 @@ $(document).ready(() => {
       });
   });
 
-
+  // const loadOrders = (() => {
+  //   $.ajax("/api/users/", { method: 'GET' })
+  //     .then(function (menu) {
+  //       renderMenu(menu);
+  //     });
+  // });
+  // loadMenu();
 });
-
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/api/users"
-//   }).done((users) => {
-//     for(user of users) {
-//       $("<div>").text(user.name).appendTo($("body"));
-//     }
-//   });;
-// });

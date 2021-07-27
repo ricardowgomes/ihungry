@@ -7,6 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
+const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -15,6 +16,23 @@ module.exports = (db) => {
         const menu = data.rows;
         res.json({ menu });
       })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.get("/admin", (req, res) => {
+    getAllCurrentOrders(20)
+      .then(data => {
+        const currentOrders = data.rows;
+        res.json({ currentOrders });
+        // sumofOrderById(currentOrders.orderId);
+      })
+      // .then(data2 => {
+
+      // })
       .catch(err => {
         res
           .status(500)

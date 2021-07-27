@@ -120,7 +120,7 @@ const getCurrentOrderById = (userId, limit = 1) => {
 };
 
 // Make a query to database to get all orders to show to the vendor
-const getAllOrders = (limit = 10) => {
+const getAllCurrentOrders = (limit = 10) => {
   const queryParams = [limit];
 
   // Inicial string
@@ -153,4 +153,59 @@ const getAllOrders = (limit = 10) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllOrders };
+const getAllPastOrders = (limit = 10) => {
+  const queryParams = [limit];
+
+  // Inicial string
+  let queryString = `
+  SELECT
+  orders.id AS orderId,
+  products.name AS productName,
+  products.price AS productPrice,
+  orders_products.quantity AS quantity,
+  products.prep_time AS prepTime,
+  orders.order_created AS orderCreated,
+  orders.order_start AS orderStart,
+  orders.order_end AS orderEnd
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  WHERE orders.order_end IS NOT NULL `;
+
+  queryParams.push(limit);
+
+  queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+const sumofOrderById = (orderId) => {
+  const queryParams = [orderId];
+
+  // Inicial string
+  let queryString = `
+  SUM(products.price) AS sum_of_order
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  WHERE orders.id = $1;
+  `;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById };

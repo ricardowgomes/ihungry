@@ -35,6 +35,7 @@ module.exports = (db) => {
 
   // using cookie to get user ID, then use the user ID to get cart ID for the user, then use the cart ID to retrieve the product data inside the cart
   router.get("/shoppingCart", (req, res) => {
+    console.log(req.cookies.user_id)
     db.query(`SELECT carts.id FROM carts WHERE carts.user_id = ${req.cookies.user_id}`)
       .then(cart_id => {
         db.query(`SELECT products_carts.id AS productInCartID, carts.id AS CartID, products.name AS item, quantity AS qnty, products.price * quantity AS price, products.id AS productID

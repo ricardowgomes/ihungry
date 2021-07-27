@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllProducts, renderProducts } = require("../public/scripts/getProducts");
+const { getAllProducts } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.post("/", (req, res) => {

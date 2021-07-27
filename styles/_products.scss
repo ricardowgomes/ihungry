@@ -1,7 +1,7 @@
 @import './variables';
 
 main {
-  margin-top: 140px;
+  margin-top: 125px;
   width: 100%;
 
   #products {
@@ -39,6 +39,10 @@ main {
       > p {
         padding: 1rem;
         color: $darkGray;
+      }
+
+      &:last-child {
+        margin-bottom: 130px;
       }
     }
   }

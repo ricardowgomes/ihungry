@@ -30,23 +30,25 @@
   <%- include('partials/_header') %>
 
     <main>
-      <!-- <%- include('partials/_products') %> -->
-
-      <!-- Single product page -->
-      <!-- <%- include('partials/_product-view') %> -->
-
-      <!-- Order page -->
-      <section class="orders">
-        <!-- <%- include('partials/_orders') %> -->
-      </section>
+      <%- include('./partials/_type-cards') %>
+        <div id="products">
+        </div>
 
 
-      <!-- Vendor page -->
 
-      <!-- Cart page -->
-      <div class="modal cart">
+        <!-- <%- include('partials/_product-view') %> -->
+
+        <section class="orders">
+          <!-- <%- include('partials/_orders') %> -->
+        </section>
+
+        <div class="modal vendor">
+          <%- include('partials/_vendor') %>
+        </div>
+
+        <!-- <div class="modal cart">
         <%- include('partials/_cart') %>
-      </div>
+      </div> -->
 
     </main>
 

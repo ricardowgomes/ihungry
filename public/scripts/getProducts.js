@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const dbParams = require('../lib/db');
+const dbParams = require('../../lib/db');
 // require('dotenv').config();
 
 const pool = new Pool(dbParams);
@@ -36,24 +36,6 @@ const getAllProducts = (options, limit = 10) => {
     }
   }
 
-  // if (options.minimum_prep_time) {
-  //   queryParams.push(options.minimum_prep_time * 100);
-  //   if (queryParams.length === 1) {
-  //     queryString += `WHERE price > $${queryParams.length} `;
-  //   } else {
-  //     queryString += `AND price > $${queryParams.length} `;
-  //   }
-  // }
-
-  // if (options.maximum_prep_time) {
-  //   queryParams.push(options.maximum_prep_time * 100);
-  //   if (queryParams.length === 1) {
-  //     queryString += `WHERE price < $${queryParams.length} `;
-  //   } else {
-  //     queryString += `AND price < $${queryParams.length} `;
-  //   }
-  // }
-
   // Limit is always the last param
   queryParams.push(limit);
   queryString += `ORDER BY name LIMIT $${queryParams.length};`;
@@ -61,7 +43,6 @@ const getAllProducts = (options, limit = 10) => {
   return pool
     .query(queryString, queryParams)
     .then((result) => {
-      // console.log(result);
       return result.rows;
     })
     .catch((err) => {
@@ -71,9 +52,9 @@ const getAllProducts = (options, limit = 10) => {
 
 const renderProducts = (products) => {
 
-  products.forEach((product) => {
-    console.log(product.name);
-  });
+  // products.forEach((product) => {
+  //   console.log(product.name);
+  // });
 };
 
 const createProductContainer = (post) => {

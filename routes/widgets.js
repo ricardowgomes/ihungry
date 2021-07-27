@@ -7,18 +7,16 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllProducts, renderProducts } = require("../temp/getProducts");
+const { getAllProducts, renderProducts } = require("../public/scripts/getProducts");
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-    // let query = `SELECT * FROM widgets`;
-    // console.log(query);
-    // db.query(query)
-    getAllProducts({})
+  router.post("/", (req, res) => {
+    const options = req.body;
+
+    getAllProducts(options)
       .then(data => {
-        // const widgets = data;
-        res.json(data);
-        renderProducts(data);
+        const menu = data;
+        res.json({ menu });
       })
       .catch(err => {
         res

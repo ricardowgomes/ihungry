@@ -1,16 +1,15 @@
 $(() => {
 
-  const twentyMinutes = 60 * 20,
+  const twentyMinutes = 60 * 20;
   const display = $('#counter');
-  $('#checkout').on('click', countDown(twentyMinutes, display));
 
-});
+  const countDown = function (duration, display) {
+    let minutes, seconds;
+    let timer = duration;
 
+    const interval = setInterval(function () {
 
-const countDown = function (duration, display) {
-  let timer = duration, minutes, seconds;
-
-  setInterval(function () {
+      timer -= 1;
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
 
@@ -20,13 +19,12 @@ const countDown = function (duration, display) {
       display.text(minutes + ":" + seconds);
 
       if (timer <= 0) {
-          timer = duration;
+        clearInterval(interval);
+        // work on message "order status" to change when counter reaches 00:00
       }
-  }, 1000);
-};
+    }, 1000);
+  };
 
 
-
-
-//   document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
-
+  countDown(twentyMinutes, display);
+});

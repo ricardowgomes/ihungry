@@ -22,7 +22,12 @@ module.exports = (db) => {
       });
   });
   router.post("/addToCart/", (req,res)=>{
-    console.log(req.body);
+    db.query(`INSERT INTO products_carts (cart_id, product_id, quantity) VALUES (1,${req.body.product_id},1)`)
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   })
   return router;
 };

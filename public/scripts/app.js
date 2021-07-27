@@ -73,10 +73,10 @@ $(document).ready(()=>{
 
 
   $('#product').on('click','#add-to-cart-button',function(){
-    productId = $(this)['0'].parentElement.id;
+    productId = {product_id:$(this)['0'].parentElement.id};
     $.post('/api/users/addToCart/',productId,(res) =>{
-
-    })
+    });
+    $('#product').slideUp("slow");
   })
   // $('#products').on ("click","#1", function() {
   //   console.log($(this)['0'].children['0'].src)
@@ -85,7 +85,9 @@ $(document).ready(()=>{
   //   renderProductDetail();
   //   $('#product').slideDown("slow");
   // })
+  $('.shopping-cart').on('click', function() {
 
+  })
 
   loadMenu();
 

@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById } = require("./helperFunctions");
+const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -63,14 +63,36 @@ module.exports = (db) => {
   // delete item from cart
   router.post("/shoppingCart/delete", (req, res) => {
     const itemId = req.body.itemid;
-    console.log(itemId);
-    db.query(`DELETE FROM products_carts WHERE id = ${itemId}`);
-
+    db.query(`DELETE FROM products_carts WHERE id = ${itemId}`)
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
+
+  router.post("/shoppingCart/submitOrder", (req, res) => {
+    const cartId = req.body.cartId;
+    const userId = req.cookies.user_id;
+    const newOrderId = insertNewOrder(userId);
+    const cartItems = getItemsFromCart(cartId);
+    Promise.all([newOrderId,cartItems])
+      .then((values) => {
+        insertCartOrder(values[0].rows[0].id,values[1].rows)
+        emptyCart(cartId)//empty cart
+        res.json(values[0].rows[0].id) //return new order id
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+
+  })
+
 
   router.get("/orders", (req, res) => {
     const userId = req.cookies.user_id;
-    console.log(userId);
 
     getAllPastOrdersById(userId)
       .then(data => {
@@ -85,6 +107,7 @@ module.exports = (db) => {
 
 
   });
+
 
   router.get("/orders_admin", (req, res) => {
     getAllPastOrders()

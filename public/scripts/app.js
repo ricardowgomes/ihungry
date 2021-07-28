@@ -6,6 +6,7 @@ const renderMenu = function (menuItems) {
     $('#products').append($itemData);
   }
 };
+
 //create each product for render menu
 const createProductElement = (menuData) => {
   const $div = $('<div>').addClass('product-card').attr('id', menuData.id);
@@ -21,7 +22,6 @@ const createProductElement = (menuData) => {
 
   return $div;
 };
-
 
 //render product view for a single product
 const renderProductDetail = function (productData) {
@@ -57,22 +57,30 @@ const renderCart = function (cartData, totalPrice) {
     const $itemData = createCartElement(item);
     $('#cart-container').append($itemData);
   }
-  $('#cart-container').append(`
-    <span class='total-price'>Total price: $${totalPrice}</span>
-
-    <button id='checkout' type='submit'>
-      Submit Order
-    </button>
-    <h1 hidden id="cartid">${cartData[0].cartid}</h1>
-  `);
+  if(!cartData[0]) {
+    $('#cart-container').append(`
+      <div class="empty_cart">
+        <h4>Cart is empty!</h4>
+      </div>
+      `);
+  } else {
+    $('#cart-container').append(`
+      <span class='total-price'>Total price: $${totalPrice}</span>
+      <div class="checkout">
+        <button id='checkout' type='submit'>
+          Submit Order
+        </button>
+        <h1 hidden id="cartid">${cartData[0].cartid}</h1>
+      </div>
+    `);
+  }
 };
 
 const createCartElement = (cartData) => {
   return `
-
   <span class='individual-item' id=${cartData.productincartid}>
-    <p>Quantity ${cartData.qnty}</p>
     <h4>${cartData.item}</h4>
+    <p>Quantity ${cartData.qnty}</p>
     <p>Price $${cartData.price}</p>
     <button type='submit' class='delete-from-cart'><i class="far fa-trash-alt"></i></button>
   </span>
@@ -201,6 +209,7 @@ $(document).ready(() => {
         renderMenu(menu);
       });
   });
+
   //filter menu based on preset filters
   $('#products').on("click", ".product-card", function () {
     const productId = { id: $(this)['0'].id };
@@ -218,14 +227,16 @@ $(document).ready(() => {
     });
     $('#product').slideUp("slow");
   });
+
   // load cart from the server
   const loadCart = (() => {
     $.ajax("/api/users/shoppingCart", { method: 'GET' })
       .then(cartData => {
         let totalPrice = 0;
         for (product of cartData) {
-          totalPrice += parseInt(product.price);
+          totalPrice += parseFloat(product.price);
         }
+        totalPrice = totalPrice.toFixed(2);
         renderCart(cartData, totalPrice);
       });
   });
@@ -233,10 +244,10 @@ $(document).ready(() => {
   // GET cart information and render
   $('.shopping-cart').on('click', function () {
     loadCart();
-    if ($('#cart-container').is(":hidden")) {
-      $('#cart-container').slideDown("slow");
-    } else if ($('#cart-container').is(":visible")) {
-      $('#cart-container').slideUp("slow");
+    if ($('.cart').is(":hidden")) {
+      $('.cart').slideDown("slow");
+    } else if ($('.cart').is(":visible")) {
+      $('.cart').slideUp("slow");
     }
 
   });

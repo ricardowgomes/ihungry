@@ -1,7 +1,17 @@
 @import './variables';
 
-.vendor {
+.vendor-view {
+  @include displayFlex(center, center);
+  height: 80px;
+
+  a {
+    margin-top: 1rem;
+  }
+}
+
+#vendors-main {
   @include displayFlex(flex-start, center, column);
+  margin-top: 90px;
   width: 100%;
   color: $darkGray;
 
@@ -10,6 +20,7 @@
     background-color: $white;
     padding: 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
 
     span {
       @include displayFlex(space-between, center);
@@ -33,6 +44,46 @@
       margin-bottom: 0.5rem;
       font-style: italic;
       font-weight: 200;
+    }
+
+    .items-ordered {
+      @include displayFlex(space-between, center);
+
+      .products-name {
+        font-weight: 600;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 95px;
+    }
+  }
+}
+
+#navbar-vendor {
+  height: 85px;
+  background-color: $gold;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem 2rem;
+  text-align: center;
+  font-size: 2rem;
+  position: fixed;
+  bottom: 0;
+  border-radius: 1rem 1rem 0 0;
+  margin-top: 2rem;
+
+  a {
+    text-decoration: none;
+
+    i {
+      color: $brown;
+
+      &:hover {
+       color: $red;
+      }
     }
   }
 }

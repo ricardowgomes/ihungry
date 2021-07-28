@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
+  <title>iHungry</title>
+  <link rel="shortcut icon" type="image/jpg" href="/images/favicon.ico">
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,9 +33,7 @@
   <%- include('partials/_header') %>
 
     <main>
-      <div id='vendors-main'></div>
-
-
+    
       <%- include('partials/_product-view') %>
 
         <%- include('partials/_cart') %>
@@ -42,9 +41,6 @@
           <%- include('./partials/_type-cards') %>
             <div id="products">
             </div>
-
-
-
 
             <section class="orders">
               <div id="current-order">
@@ -64,13 +60,11 @@
               <%- include('partials/_orders') %>
             </section>
 
-            <!-- <div class="modal vendor">
-        <%- include('partials/_vendor') %>
-      </div> -->
 
-            <!-- <div class="modal cart">
-        <%- include('partials/_cart') %>
-      </div> -->
+
+            <div class="modal cart">
+              <%- include('partials/_cart') %>
+            </div>
 
     </main>
 
@@ -91,8 +85,6 @@
         <i class="fas fa-envelope"></i>
       </a>
     </nav>
-
-
 
 </body>
 

@@ -81,46 +81,113 @@ const createCartElement = (cartData) => {
   `;
 };
 
-const createOrderElement = (ordersData) => {
-  let orderStatus = 'no status';
+// Group products by order_id
+const groupProductsByOrderId = (arrayOfObjects) => {
+  const newObject = {};
+  const newArray = [];
 
-  if (ordersData.order_end) {
-    orderStatus = `Great job! This order is finished!`;
+  for (const object of arrayOfObjects) {
+    let created = new Date(object.order_created);
+    let start = new Date(object.order_start);
+    let end = new Date(object.order_end);
 
-  } else if (ordersData.order_start) {
-    orderStatus = `You have to finish this order until ${ordersData.order_start + ordersData.prep_time}`;
+    if (!newObject[object.order_id]) {
+      newObject[object.order_id] = {
+        'product_name': [],
+        'product_price': [],
+        'quantity': [],
+        'prep_time': [],
+        'order_created': created.toUTCString(),
+        'order_start': start.toUTCString(),
+        'order_end': end.toUTCString(),
+        'price_sum': 0
+      };
+    }
 
-  } else {
-    orderStatus = `Let the customer know that you are ready to start this order`;
+    newObject[object.order_id].product_name.push(object.product_name);
+    newObject[object.order_id].product_price.push(Number(object.product_price) * Number(object.quantity));
+    newObject[object.order_id].quantity.push(object.quantity);
+    newObject[object.order_id].prep_time.push(object.prep_time);
+    // newObject[object.order_id].order_created.push(object.order_created);
+    // newObject[object.order_id].order_start.push(object.order_start);
+    // newObject[object.order_id].order_end.push(object.order_end);
   }
 
-  const $vendorMain = $('<main>');
-  const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
-  $orderContainer.append(`<span><p>#${ordersData.order_id}</p><p>${orderStatus}</p></span>
-  <hr>
-  <span>${ordersData.order_created}</span>
-  <span class="items-ordered"><p>${ordersData.quantity}</p><p>${ordersData.product_name}</p><p>${ordersData.product_price}</p></span>`);
+  for (const key in newObject) {
+    newObject[key].price_sum = newObject[key].product_price.reduce((acc, cur) => Number(acc) + Number(cur), 0);
 
-  const subTotal = 20;
-  const totals = `
-<span><p>Subtotal</p><p>$${subTotal}</p></span>
-<hr>
-<span><p>Delivery</p><p>Pickup</p></span>
-<span><p>GST (5%)</p><p>$${subTotal * 0.05}</p></span><span>
-<p>Total (CAD)</p><p> $${subTotal * 0.05 + subTotal}</p></span>`;
+    newArray.push({ [key]: newObject[key] });
+  }
+
+  for (const key in newObject) {
+    newObject[key].prep_time = newObject[key].prep_time.reduce((acc, cur) => {
+      if (cur > acc) {
+        acc = cur;
+      }
+      return acc;
+    });
+  }
+
+  return newArray;
+};
+
+const createOrderElementVendor = (ordersData) => {
+  let orderStatus = 'no status';
+  const id = Object.keys(ordersData);
+  const date = ordersData[id].order_end.split(' ');
+  const year = Number(date[3]);
+
+  if (year > 1980) {
+    orderStatus = `Great job! This order is finished!`;
+
+  } else {
+    orderStatus = `You have ${ordersData[id].prep_time} min. to finish this order!`;
+  }
+
+  const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
+
+  $orderContainer.append(`<span><p>#${id}</p><p>${orderStatus}</p></span>
+    <hr>
+    <span>${ordersData[id].order_created}</span>`);
+
+  const quantity = ordersData[id].quantity;
+  const products = ordersData[id].product_name;
+  const prices = ordersData[id].product_price;
+
+  const $itemsOrdered = $('<div>').addClass('items-ordered');
+  const $quantity = $('<ul>');
+  const $products = $('<ul>').addClass('products-name');
+  const $prices = $('<ul>');
+
+
+  quantity.forEach(item => $quantity.append(`<p>x${item}</p>`));
+  products.forEach(item => $products.append(`<p>${item}</p>`));
+  prices.forEach(item => $prices.append(`<p>$${item}</p>`));
+
+  $itemsOrdered.append($quantity);
+  $itemsOrdered.append($products);
+  $itemsOrdered.append($prices);
+
+  $orderContainer.append($itemsOrdered);
+
+  const subTotal = ordersData[id].price_sum;
+  const totals = `<span><p>Subtotal</p><p>$${subTotal}</p></span >
+        <hr>
+          <span><p>Delivery</p><p>Pickup</p></span>
+          <span><p>GST (5%)</p><p>$${Math.floor(subTotal * 0.05 * 100) / 100}</p></span><span>
+            <p>Total (CAD)</p><p> $${Math.floor((subTotal * 0.05 + subTotal) * 100) / 100}</p></span>`;
+
   $orderContainer.append(totals);
 
-  $vendorMain.append($orderContainer);
-
-  return $vendorMain;
+  return $orderContainer;
 };
 
 const renderVendorOrders = (orders) => {
-  const $div = $('#vendors-main').addClass('vendor');
+  const $div = $('#vendors-main');
   $div.empty();
 
   for (const item of orders) {
-    const $itemData = createOrderElement(item);
+    const $itemData = createOrderElementVendor(item);
     $('#vendors-main').append($itemData);
   }
 };
@@ -194,6 +261,7 @@ $(document).ready(() => {
   })
 
 
+  // filter the food type when clicked on icon
   $('.food').click(function () {
     const filter = { type: $(this)['0'].id };
 
@@ -202,6 +270,7 @@ $(document).ready(() => {
         renderMenu(menu);
       });
   });
+
 
   const $orderIcon = $('.orders');
   $orderIcon.click((event) => {
@@ -215,6 +284,52 @@ $(document).ready(() => {
   }
   );
 
-  loadMenu();
-});
 
+  loadMenu();
+
+
+  // to render vendor's page
+  const $vendorsMain = $('#vendors-main');
+
+  const loadVendorOrders = (() => {
+    $.ajax("/api/users/orders_todo", { method: 'GET' })
+      .then(function (data) {
+        const orders = groupProductsByOrderId(data);
+
+        renderVendorOrders(orders);
+        $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
+      });
+  });
+
+  loadVendorOrders();
+
+
+  const $pastOrderVendorIcon = $('.orders-vendor');
+  $pastOrderVendorIcon.click((event) => {
+    event.preventDefault();
+
+    $.get('/api/users/orders_admin')
+      .then((data) => {
+        const orders = groupProductsByOrderId(data);
+
+        renderVendorOrders(orders);
+        $vendorsMain.prepend(`<h3>Orders completed:</h3>`);
+      });
+  });
+
+  const $currentOrderVendorIcon = $('.todo-orders');
+  $currentOrderVendorIcon.click((event) => {
+    event.preventDefault();
+
+    $.get('/api/users/orders_todo')
+      .then((data) => {
+        const orders = groupProductsByOrderId(data);
+
+        renderVendorOrders(orders);
+        $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
+      });
+  });
+
+
+
+});

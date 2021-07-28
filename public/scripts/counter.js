@@ -1,6 +1,6 @@
 $(() => {
 
-  const twentyMinutes = 60 * 20;
+  const twentyMinutes = 60 * 1;
   const display = $('#counter');
 
   const countDown = function (duration, display) {
@@ -20,7 +20,7 @@ $(() => {
 
       if (timer <= 0) {
         clearInterval(interval);
-        // work on message "order status" to change when counter reaches 00:00
+        $('#order-status').text("Your order is ready!");
       }
     }, 1000);
   };

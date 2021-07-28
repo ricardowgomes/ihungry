@@ -316,6 +316,28 @@ const renderCurrentOrders = (orders) => {
   }
 };
 
+const countDown = () => {
+  const $counterElement = $('#counter');
+  const startingMinutes = Number($counterElement.text());
+  let counter = startingMinutes * 60;
+
+  setInterval(() => {
+    const minutes = Math.floor(counter / 60);
+    let seconds = counter % 60;
+
+    if (seconds < 10) {
+      seconds = '0' + seconds;
+    }
+    $counterElement.text(`${minutes}:${seconds}`);
+    counter--;
+
+    if (counter < 1) {
+      return $counterElement.text(`Ready to pickup`);
+    }
+
+  }, 1000);
+};
+
 $(document).ready(() => {
 
   // load menu from the server
@@ -454,25 +476,10 @@ $(document).ready(() => {
         $('.orders-main').prepend(`<h3>Current orders:</h3>`);
 
         // Create a countdown for the current order
-        const $counterElement = $('#counter');
-        const startingMinutes = Number($counterElement.text());
-        let counter = startingMinutes * 60;
-
-        setInterval(() => {
-          const minutes = Math.floor(counter / 60);
-          let seconds = counter % 60;
-
-          if (seconds < 10) {
-            seconds = '0' + seconds;
-          }
-          $counterElement.text(`${minutes}:${seconds}`);
-          counter--;
-
-          if (counter < 1) {
-            return $counterElement.text(`Ready to pickup`);
-          }
-
-        }, 1000);
+        countDown();
       });
   });
 });
+
+
+

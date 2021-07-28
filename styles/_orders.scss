@@ -50,34 +50,8 @@
       .products-name {
         font-weight: 600;
       }
-    }
-  }
-}
 
-#navbar-vendor {
-  height: 85px;
-  background-color: $gold;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 2rem 2rem;
-  text-align: center;
-  font-size: 2rem;
-  position: fixed;
-  bottom: 0;
-  border-radius: 1rem 1rem 0 0;
-  margin-top: 2rem;
 
-  a {
-    text-decoration: none;
-
-    i {
-      color: $brown;
-
-      &:hover {
-       color: $red;
-      }
     }
   }
 }

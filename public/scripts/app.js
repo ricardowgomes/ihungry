@@ -52,18 +52,18 @@ const createProductView = (productData) => {
 };
 
 const renderCart = function (cartData, totalPrice) {
-  $('#cart-container').empty();
+  $('#cart-container').empty()
   for (const item of cartData) {
     const $itemData = createCartElement(item);
     $('#cart-container').append($itemData);
   }
   $('#cart-container').append(`
     <span class='total-price'>Total price: $${totalPrice}</span>
-    <form action="POST" action="/api/users/add" class='checkout'>
-      <button id='checkout' type='submit'>
-      checkout
-      </button>
-    </form>
+
+    <button id='checkout' type='submit'>
+      Submit Order
+    </button>
+    <h1 hidden id="cartid">${cartData[0].cartid}</h1>
   `);
 };
 
@@ -248,7 +248,18 @@ $(document).ready(() => {
       .then(loadCart());
   });
 
-  loadMenu();
+  //Submit order from cart
+  $('#cart-container').on('click', '#checkout', function(){
+    const cartId ={cartId:$('#cartid')['0'].innerText};
+    $.post('/api/users/shoppingCart/submitOrder', cartId)
+      .then(orderId => {
+        $.get('/api/users/orders')
+          .then((data) => {
+          renderVendorOrders(data);
+          });
+      })
+  })
+
 
   // filter the food type when clicked on icon
   $('.food').click(function () {
@@ -273,6 +284,10 @@ $(document).ready(() => {
   }
   );
 
+
+  loadMenu();
+
+
   // to render vendor's page
   const $vendorsMain = $('#vendors-main');
 
@@ -287,6 +302,7 @@ $(document).ready(() => {
   });
 
   loadVendorOrders();
+
 
   const $pastOrderVendorIcon = $('.orders-vendor');
   $pastOrderVendorIcon.click((event) => {

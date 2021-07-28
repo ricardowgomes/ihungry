@@ -1,0 +1,32 @@
+@import './variables';
+
+.product-view {
+  width:100%;
+  height:80%;
+  background-color: white;
+  padding: 10px;
+
+  img {
+    padding: 0;
+    display: block;
+    margin: 0 auto;
+    max-height: 100%;
+    max-width:100%;
+  }
+  button {
+    width: 35%;
+    border: none;
+    border-radius: 0.5rem;
+    bottom: 0;
+    background-color: $lightGreen;
+    color: $white;
+    align-self: flex-end;
+    margin-top: 2rem;
+    margin-right: 2rem;
+    font-size: 120%;
+  }
+  .return-to-menu {
+    float: right;
+    width: 20%;
+  }
+}

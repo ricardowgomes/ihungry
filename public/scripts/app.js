@@ -32,23 +32,23 @@ const renderProductDetail = function (productData) {
 
 //create html for product view of a single product
 const createProductView = (productData) => {
-  // const $form = $('<form>').attr('action','/api/users/addToCart/').attr('method','POST').attr('id','add-to-cart')
-  const $div = $('<div>').addClass('product-view').attr('id', productData.id);
-  // $form.append($div);
-  const $img = $('<img>').attr('src', productData.thumbnail_picture_url).attr('alt', productData.name);
-  const $span = $('<span>');
-  const $hr = $('<hr>');
-  const $p = $('<p>').text(productData.description);
-  const $button = $('<button>').attr('type', 'submit').attr('id', 'add-to-cart-button').text('Add to cart');
-  $div.append($img, $span, $hr, $p, $button);
-  const $div2 = $('<div>');
-  const $p2 = $('<p>').attr('id', 'price').text(productData.price);
-  $span.append($div2, $p2);
-  const $h3 = $('<h3>').text(productData.name);
-  const $p3 = $('<p2>').text(productData.name);
-  $div2.append($h3, $p3);
-
-  return $div;
+  return `
+  <div class="product-view" id="${productData.id}">
+    <img src="${productData.thumbnail_picture_url}" alt="${productData.name}"></img>
+    <span>
+      <div>
+        <h3>${productData.name}</h3>
+      </div>
+      <p id="price">
+        Price: $${productData.price}
+      </p>
+    </span>
+    <hr>
+    <p>${productData.description}</p>
+    <button type="submit" id="add-to-cart-button">Add to cart</button>
+    <button type="submit" class="return-to-menu">Back</button
+  </div>
+  `
 };
 
 const renderCart = function (cartData, totalPrice) {
@@ -210,22 +210,31 @@ $(document).ready(() => {
       });
   });
 
-  //filter menu based on preset filters
+  //show product detail upon clicking on the product in menu
   $('#products').on("click", ".product-card", function () {
     const productId = { id: $(this)['0'].id };
     return $.post('/api/widgets/product_view', productId)
       .then((productData) => {
         renderProductDetail(productData.menu['0']);
+        $('#products').slideUp("fast");
+        $('#food-type').slideUp("fast");
         $('#product').slideDown("slow");
       });
   });
+
+  //put away product detail and go back to menu
+  $('#product').on("click", ".return-to-menu", function() {
+    $('#product').slideUp("slow");
+    $('#food-type').slideDown("fast");
+    $('#products').slideDown("fast");
+  })
 
   //add to cart button, send product information to server to add product to cart in db
   $('#product').on('click', '#add-to-cart-button', function () {
     productId = { product_id: $(this)['0'].parentElement.id };
     $.post('/api/users/addToCart/', productId, (res) => {
     });
-    $('#product').slideUp("slow");
+    $('#product').slideUp(5000);
   });
 
   // load cart from the server

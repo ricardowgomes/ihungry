@@ -249,7 +249,7 @@ const createCurrentOrderElement = (ordersData) => {
 
   // Top span with id and counter
   const $idCounterSpan = $('<span>');
-  const $counter = $('<p>COUNTER 20.00</p>').attr('id', 'counter');
+  const $counter = $(`<p>${ordersData[id].prep_time}</p>`).attr('id', 'counter');
   $idCounterSpan.append(`<p>#${id}</p>`);
   $idCounterSpan.append($counter);
   $orderContainer.append($idCounterSpan);
@@ -452,6 +452,27 @@ $(document).ready(() => {
         $('#vendors-main').prepend(`<h3>Past orders:</h3>`);
         renderCurrentOrders(groupProductsByOrderId(currentOrders));
         $('.orders-main').prepend(`<h3>Current orders:</h3>`);
+
+        // Create a countdown for the current order
+        const $counterElement = $('#counter');
+        const startingMinutes = Number($counterElement.text());
+        let counter = startingMinutes * 60;
+
+        setInterval(() => {
+          const minutes = Math.floor(counter / 60);
+          let seconds = counter % 60;
+
+          if (seconds < 10) {
+            seconds = '0' + seconds;
+          }
+          $counterElement.text(`${minutes}:${seconds}`);
+          counter--;
+
+          if (counter < 1) {
+            return $counterElement.text(`Ready to pickup`);
+          }
+
+        }, 1000);
       });
   });
 });

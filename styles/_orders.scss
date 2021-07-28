@@ -1,49 +1,57 @@
 @import './variables';
 
-.orders {
+.orders-main {
   @include displayFlex(flex-start, center, column);
+  margin-top: 90px;
+  width: 100%;
   color: $darkGray;
-  // margin: 1.5rem;
-  // width: 95%;
 
   #current-order {
-    @include displayFlex(space-between, center, column);
-    width: 95%;
+    width: 90%;
     background-color: $white;
-    margin: 1rem;
     padding: 1rem;
-    border-radius: 1rem 1rem 1rem 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
 
-    div {
-      @include displayFlex(space-around, center, row);
-      width: 100%;
+    span {
+      @include displayFlex(space-between, center);
 
-      .list-current-order {
-        @include displayFlex(flex-start, flex-start, column);
+
+      p:nth-of-type(2) {
+        font-weight: 600;
       }
     }
 
-    p:last-child {
-      margin-top: 1rem;
+    .status {
+      text-align: center;
       font-size: 120%;
       font-weight: 200;
-    }
-  }
-
-  #orders-container {
-    @include displayFlex(space-between, center, row);
-
-    background-color: $white;
-    margin: 1rem;
-    width: 95%;
-    padding: 1rem;
-    border-radius: 1rem 1rem 1rem 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-    table {
-      width: 100%;
+      font-style: italic;
     }
 
+    hr {
+      margin: 0.5rem 0;
+      border: 0;
+      height: 0;
+      border-top: 1px solid $gold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    span:nth-of-type(2) {
+      @include displayFlex(space-between, center);
+      margin-bottom: 0.5rem;
+      font-style: italic;
+      font-weight: 200;
+    }
+
+    .items-ordered {
+      @include displayFlex(space-between, center);
+
+      .products-name {
+        font-weight: 600;
+      }
+
+
+    }
   }
 }

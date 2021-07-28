@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
+const { getAllOrdersById, getAllCurrentOrders, getAllCurrentOrdersById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -85,38 +85,19 @@ module.exports = (db) => {
     const userId = req.cookies.user_id;
     const newOrderId = insertNewOrder(userId);
     const cartItems = getItemsFromCart(cartId);
-    Promise.all([newOrderId,cartItems])
+    Promise.all([newOrderId, cartItems])
       .then((values) => {
-        insertCartOrder(values[0].rows[0].id,values[1].rows)
-        emptyCart(cartId)//empty cart
-        res.json(values[0].rows[0].id) //return new order id
+        insertCartOrder(values[0].rows[0].id, values[1].rows);
+        emptyCart(cartId);//empty cart
+        res.json(values[0].rows[0].id); //return new order id
       })
       .catch(err => {
         res
           .status(500)
           .json({ error: err.message });
       });
-
-  })
-
-
-  router.get("/orders", (req, res) => {
-    const userId = req.cookies.user_id;
-
-    getAllPastOrdersById(userId)
-      .then(data => {
-        const pastOrders = data.rows;
-        res.json(pastOrders);
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-
 
   });
-
 
   router.get("/orders_admin", (req, res) => {
     getAllPastOrders()
@@ -136,6 +117,24 @@ module.exports = (db) => {
       .then(data => {
         const currentOrders = data;
         res.json(currentOrders);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.get("/orders", (req, res) => {
+    const userId = req.cookies.user_id;
+
+    Promise.all([
+      getAllOrdersById(userId),
+      getAllCurrentOrdersById(userId)
+    ])
+      .then((result) => {
+        const [pastOrders, currentOrders] = result;
+        res.json({ pastOrders, currentOrders });
       })
       .catch(err => {
         res

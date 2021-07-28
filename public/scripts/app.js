@@ -52,7 +52,7 @@ const createProductView = (productData) => {
 };
 
 const renderCart = function (cartData, totalPrice) {
-  $('#cart-container').empty()
+  $('#cart-container').empty();
   for (const item of cartData) {
     const $itemData = createCartElement(item);
     $('#cart-container').append($itemData);
@@ -200,6 +200,152 @@ const renderVendorOrders = (orders) => {
   }
 };
 
+const createOrderElement = (ordersData) => {
+  const id = Object.keys(ordersData);
+  const date = ordersData[id].order_end.split(' ');
+  const year = Number(date[3]);
+
+  let orderStatus = 'Completed';
+
+  const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
+
+  $orderContainer.append(`<span><p>#${id}</p><p>${orderStatus}</p></span>
+    <hr>
+    <span>${ordersData[id].order_created}</span>`);
+
+  const quantity = ordersData[id].quantity;
+  const products = ordersData[id].product_name;
+  const prices = ordersData[id].product_price;
+
+  const $itemsOrdered = $('<div>').addClass('items-ordered');
+  const $quantity = $('<ul>');
+  const $products = $('<ul>').addClass('products-name');
+  const $prices = $('<ul>');
+
+
+  quantity.forEach(item => $quantity.append(`<p>x${item}</p>`));
+  products.forEach(item => $products.append(`<p>${item}</p>`));
+  prices.forEach(item => $prices.append(`<p>$${item}</p>`));
+
+  $itemsOrdered.append($quantity);
+  $itemsOrdered.append($products);
+  $itemsOrdered.append($prices);
+
+  $orderContainer.append($itemsOrdered);
+
+  const subTotal = ordersData[id].price_sum;
+  const totals = `<span><p>Subtotal</p><p>$${subTotal}</p></span >
+        <hr>
+          <span><p>Delivery</p><p>Pickup</p></span>
+          <span><p>GST (5%)</p><p>$${Math.floor(subTotal * 0.05 * 100) / 100}</p></span><span>
+            <p>Total (CAD)</p><p> $${Math.floor((subTotal * 0.05 + subTotal) * 100) / 100}</p></span>`;
+
+  $orderContainer.append(totals);
+
+  return $orderContainer;
+};
+
+const createCurrentOrderElement = (ordersData) => {
+  const id = Object.keys(ordersData);
+  const date = ordersData[id].order_end.split(' ');
+  const year = Number(date[3]);
+
+  let orderStatus = `Your order will be done in ${ordersData[id].prep_time} minutes!`;
+
+  // Main element for current order
+  const $orderContainer = $('<div>').attr('id', 'current-order');
+
+  // Top span with id and counter
+  const $idCounterSpan = $('<span>');
+  const $counter = $(`<p>${ordersData[id].prep_time}</p>`).attr('id', 'counter');
+  $idCounterSpan.append(`<p>#${id}</p>`);
+  $idCounterSpan.append($counter);
+  $orderContainer.append($idCounterSpan);
+
+  $orderContainer.append('<hr>');
+
+  // Products ordered
+  const $itemsOrdered = $('<div>').addClass('items-ordered');
+
+  const quantity = ordersData[id].quantity;
+  const products = ordersData[id].product_name;
+  const prices = ordersData[id].product_price;
+
+  const $quantity = $('<ul>');
+  const $products = $('<ul>').addClass('products-name');
+  const $prices = $('<ul>');
+
+  quantity.forEach(item => $quantity.append(`<p>x${item}</p>`));
+  products.forEach(item => $products.append(`<p>${item}</p>`));
+  prices.forEach(item => $prices.append(`<p>$${item}</p>`));
+
+  $itemsOrdered.append($quantity);
+  $itemsOrdered.append($products);
+  $itemsOrdered.append($prices);
+
+  $orderContainer.append($itemsOrdered);
+
+  const subTotal = ordersData[id].price_sum;
+  const totals = `<span><p>Subtotal</p><p>$${subTotal}</p></span >
+        <hr>
+          <span><p>Delivery</p><p>Pickup</p></span>
+          <span><p>GST (5%)</p><p>$${Math.floor(subTotal * 0.05 * 100) / 100}</p></span><span>
+            <p>Total (CAD)</p><p> $${Math.floor((subTotal * 0.05 + subTotal) * 100) / 100}</p></span>`;
+
+  $orderContainer.append(totals);
+
+  $orderContainer.append(`<hr>`);
+  $orderContainer.append(`<p class='status'>${orderStatus}</p>`);
+
+  return $orderContainer;
+};
+
+const renderOrders = (orders) => {
+  const $main = $('#main-html');
+  $main.empty();
+
+  $main.append(`<div id='vendors-main'></div>`);
+  const $div = $('#vendors-main');
+
+  for (const item of orders) {
+    const $itemData = createOrderElement(item);
+    $div.append($itemData);
+  }
+};
+
+const renderCurrentOrders = (orders) => {
+  const $main = $('#main-html');
+  $main.prepend(`<section class="orders-main">`);
+  const $div = $('.orders-main');
+
+  for (const item of orders) {
+    const $itemData = createCurrentOrderElement(item);
+    $div.append($itemData);
+  }
+};
+
+const countDown = () => {
+  const $counterElement = $('#counter');
+  const startingMinutes = Number($counterElement.text());
+  let counter = startingMinutes * 60;
+
+  setInterval(() => {
+    const minutes = Math.floor(counter / 60);
+    let seconds = counter % 60;
+
+    if (seconds < 10) {
+      seconds = '0' + seconds;
+    }
+    $counterElement.text(`${minutes}:${seconds}`);
+    counter--;
+
+    if (counter < 1) {
+      return $counterElement.text(`Ready to pickup`);
+    }
+
+  }, 1000);
+};
+
 $(document).ready(() => {
 
   // load menu from the server
@@ -269,16 +415,16 @@ $(document).ready(() => {
   });
 
   //Submit order from cart
-  $('#cart-container').on('click', '#checkout', function(){
-    const cartId ={cartId:$('#cartid')['0'].innerText};
+  $('#cart-container').on('click', '#checkout', function () {
+    const cartId = { cartId: $('#cartid')['0'].innerText };
     $.post('/api/users/shoppingCart/submitOrder', cartId)
       .then(orderId => {
         $.get('/api/users/orders')
           .then((data) => {
-          renderVendorOrders(data);
+            renderVendorOrders(data);
           });
-      })
-  })
+      });
+  });
 
 
   // filter the food type when clicked on icon
@@ -291,22 +437,7 @@ $(document).ready(() => {
       });
   });
 
-
-  const $orderIcon = $('.orders');
-  $orderIcon.click((event) => {
-    event.preventDefault();
-
-    // const data = $orderIcon.serialize();
-    $.get('/api/users/orders')
-      .then((data) => {
-        renderVendorOrders(data);
-      });
-  }
-  );
-
-
   loadMenu();
-
 
   // to render vendor's page
   const $vendorsMain = $('#vendors-main');
@@ -330,6 +461,7 @@ $(document).ready(() => {
 
     $.get('/api/users/orders_admin')
       .then((data) => {
+        // console.log(data);
         const orders = groupProductsByOrderId(data);
 
         renderVendorOrders(orders);
@@ -350,6 +482,24 @@ $(document).ready(() => {
       });
   });
 
+  const $OrderIcon = $('.orders');
+  $OrderIcon.click((event) => {
+    event.preventDefault();
 
+    $.get('/api/users/orders')
+      .then((data) => {
+        const { pastOrders, currentOrders } = data;
 
+        renderOrders(groupProductsByOrderId(pastOrders));
+        $('#vendors-main').prepend(`<h3>Past orders:</h3>`);
+        renderCurrentOrders(groupProductsByOrderId(currentOrders));
+        $('.orders-main').prepend(`<h3>Current orders:</h3>`);
+
+        // Create a countdown for the current order
+        countDown();
+      });
+  });
 });
+
+
+

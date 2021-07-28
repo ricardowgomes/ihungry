@@ -238,33 +238,34 @@ const createOrderElement = (ordersData) => {
 };
 
 const createCurrentOrderElement = (ordersData) => {
-  let orderStatus = 'no status';
   const id = Object.keys(ordersData);
   const date = ordersData[id].order_end.split(' ');
   const year = Number(date[3]);
 
-  if (year > 1980) {
-    orderStatus = `Current Order`;
+  let orderStatus = `Your order will be done in ${ordersData[id].prep_time} minutes!`;
 
-  } else {
-    orderStatus = `Your order will be done in ${ordersData[id].prep_time} minutes!`;
-  }
+  // Main element for current order
+  const $orderContainer = $('<div>').attr('id', 'current-order');
 
-  const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
+  // Top span with id and counter
+  const $idCounterSpan = $('<span>');
+  const $counter = $('<p>COUNTER 20.00</p>').attr('id', 'counter');
+  $idCounterSpan.append(`<p>#${id}</p>`);
+  $idCounterSpan.append($counter);
+  $orderContainer.append($idCounterSpan);
 
-  $orderContainer.append(`<span><p>#${id}</p><p>${orderStatus}</p></span>
-    <hr>
-    <span>${ordersData[id].order_created}</span>`);
+  $orderContainer.append('<hr>');
+
+  // Products ordered
+  const $itemsOrdered = $('<div>').addClass('items-ordered');
 
   const quantity = ordersData[id].quantity;
   const products = ordersData[id].product_name;
   const prices = ordersData[id].product_price;
 
-  const $itemsOrdered = $('<div>').addClass('items-ordered');
   const $quantity = $('<ul>');
   const $products = $('<ul>').addClass('products-name');
   const $prices = $('<ul>');
-
 
   quantity.forEach(item => $quantity.append(`<p>x${item}</p>`));
   products.forEach(item => $products.append(`<p>${item}</p>`));
@@ -285,6 +286,9 @@ const createCurrentOrderElement = (ordersData) => {
 
   $orderContainer.append(totals);
 
+  $orderContainer.append(`<hr>`);
+  $orderContainer.append(`<p class='status'>${orderStatus}</p>`);
+
   return $orderContainer;
 };
 
@@ -303,10 +307,8 @@ const renderOrders = (orders) => {
 
 const renderCurrentOrders = (orders) => {
   const $main = $('#main-html');
-  $main.empty();
-
-  $main.append(`<div id='vendors-main'></div>`);
-  const $div = $('#vendors-main');
+  $main.prepend(`<section class="orders-main">`);
+  const $div = $('.orders-main');
 
   for (const item of orders) {
     const $itemData = createCurrentOrderElement(item);
@@ -449,7 +451,7 @@ $(document).ready(() => {
         renderOrders(groupProductsByOrderId(pastOrders));
         $('#vendors-main').prepend(`<h3>Past orders:</h3>`);
         renderCurrentOrders(groupProductsByOrderId(currentOrders));
-        $('#vendors-main').prepend(`<h3>Current orders:</h3>`);
+        $('.orders-main').prepend(`<h3>Current orders:</h3>`);
       });
   });
 });

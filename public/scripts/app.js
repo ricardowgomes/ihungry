@@ -6,6 +6,7 @@ const renderMenu = function (menuItems) {
     $('#products').append($itemData);
   }
 };
+
 //create each product for render menu
 const createProductElement = (menuData) => {
   const $div = $('<div>').addClass('product-card').attr('id', menuData.id);
@@ -22,7 +23,6 @@ const createProductElement = (menuData) => {
   return $div;
 };
 
-
 //render product view for a single product
 const renderProductDetail = function (productData) {
   // Code to work with menu items in object format to render them on client side
@@ -32,23 +32,23 @@ const renderProductDetail = function (productData) {
 
 //create html for product view of a single product
 const createProductView = (productData) => {
-  // const $form = $('<form>').attr('action','/api/users/addToCart/').attr('method','POST').attr('id','add-to-cart')
-  const $div = $('<div>').addClass('product-view').attr('id', productData.id);
-  // $form.append($div);
-  const $img = $('<img>').attr('src', productData.thumbnail_picture_url).attr('alt', productData.name);
-  const $span = $('<span>');
-  const $hr = $('<hr>');
-  const $p = $('<p>').text(productData.description);
-  const $button = $('<button>').attr('type', 'submit').attr('id', 'add-to-cart-button').text('Add to cart');
-  $div.append($img, $span, $hr, $p, $button);
-  const $div2 = $('<div>');
-  const $p2 = $('<p>').attr('id', 'price').text(productData.price);
-  $span.append($div2, $p2);
-  const $h3 = $('<h3>').text(productData.name);
-  const $p3 = $('<p2>').text(productData.name);
-  $div2.append($h3, $p3);
-
-  return $div;
+  return `
+  <div class="product-view" id="${productData.id}">
+    <img src="${productData.thumbnail_picture_url}" alt="${productData.name}"></img>
+    <span>
+      <div>
+        <h3>${productData.name}</h3>
+      </div>
+      <p id="price">
+        Price: $${productData.price}
+      </p>
+    </span>
+    <hr>
+    <p>${productData.description}</p>
+    <button type="submit" id="add-to-cart-button">Add to cart</button>
+    <button type="submit" class="return-to-menu">Back</button
+  </div>
+  `
 };
 
 const renderCart = function (cartData, totalPrice) {
@@ -57,22 +57,30 @@ const renderCart = function (cartData, totalPrice) {
     const $itemData = createCartElement(item);
     $('#cart-container').append($itemData);
   }
-  $('#cart-container').append(`
-    <span class='total-price'>Total price: $${totalPrice}</span>
-
-    <button id='checkout' type='submit'>
-      Submit Order
-    </button>
-    <h1 hidden id="cartid">${cartData[0].cartid}</h1>
-  `);
+  if(!cartData[0]) {
+    $('#cart-container').append(`
+      <div class="empty_cart">
+        <h4>Cart is empty!</h4>
+      </div>
+      `);
+  } else {
+    $('#cart-container').append(`
+      <span class='total-price'>Total price: $${totalPrice}</span>
+      <div class="checkout">
+        <button id='checkout' type='submit'>
+          Submit Order
+        </button>
+        <h1 hidden id="cartid">${cartData[0].cartid}</h1>
+      </div>
+    `);
+  }
 };
 
 const createCartElement = (cartData) => {
   return `
-
   <span class='individual-item' id=${cartData.productincartid}>
-    <p>Quantity ${cartData.qnty}</p>
     <h4>${cartData.item}</h4>
+    <p>Quantity ${cartData.qnty}</p>
     <p>Price $${cartData.price}</p>
     <button type='submit' class='delete-from-cart'><i class="far fa-trash-alt"></i></button>
   </span>
@@ -201,31 +209,43 @@ $(document).ready(() => {
         renderMenu(menu);
       });
   });
-  //filter menu based on preset filters
+
+  //show product detail upon clicking on the product in menu
   $('#products').on("click", ".product-card", function () {
     const productId = { id: $(this)['0'].id };
     return $.post('/api/widgets/product_view', productId)
       .then((productData) => {
         renderProductDetail(productData.menu['0']);
+        $('#products').slideUp("fast");
+        $('#food-type').slideUp("fast");
         $('#product').slideDown("slow");
       });
   });
+
+  //put away product detail and go back to menu
+  $('#product').on("click", ".return-to-menu", function() {
+    $('#product').slideUp("slow");
+    $('#food-type').slideDown("fast");
+    $('#products').slideDown("fast");
+  })
 
   //add to cart button, send product information to server to add product to cart in db
   $('#product').on('click', '#add-to-cart-button', function () {
     productId = { product_id: $(this)['0'].parentElement.id };
     $.post('/api/users/addToCart/', productId, (res) => {
     });
-    $('#product').slideUp("slow");
+    $('#product').slideUp(5000);
   });
+
   // load cart from the server
   const loadCart = (() => {
     $.ajax("/api/users/shoppingCart", { method: 'GET' })
       .then(cartData => {
         let totalPrice = 0;
         for (product of cartData) {
-          totalPrice += parseInt(product.price);
+          totalPrice += parseFloat(product.price);
         }
+        totalPrice = totalPrice.toFixed(2);
         renderCart(cartData, totalPrice);
       });
   });
@@ -233,10 +253,10 @@ $(document).ready(() => {
   // GET cart information and render
   $('.shopping-cart').on('click', function () {
     loadCart();
-    if ($('#cart-container').is(":hidden")) {
-      $('#cart-container').slideDown("slow");
-    } else if ($('#cart-container').is(":visible")) {
-      $('#cart-container').slideUp("slow");
+    if ($('.cart').is(":hidden")) {
+      $('.cart').slideDown("slow");
+    } else if ($('.cart').is(":visible")) {
+      $('.cart').slideUp("slow");
     }
 
   });

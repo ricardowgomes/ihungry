@@ -257,10 +257,6 @@ const insertNewOrder = function(userId) {
     });
 }
 
-
-
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder};
-
 const checkIfUserIsAdmin = (userId) => {
   const queryParams = [userId];
 
@@ -277,5 +273,5 @@ const checkIfUserIsAdmin = (userId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin };
+module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder};
 

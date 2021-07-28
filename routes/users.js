@@ -99,6 +99,19 @@ module.exports = (db) => {
       });
   });
 
+  router.get("/orders_todo", (req, res) => {
+    getAllCurrentOrders()
+      .then(data => {
+        const currentOrders = data;
+        res.json(currentOrders);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
   return router;
 };
 

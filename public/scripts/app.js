@@ -119,18 +119,29 @@ const groupProductsByOrderId = (arrayOfObjects) => {
     newArray.push({ [key]: newObject[key] });
   }
 
+  for (const key in newObject) {
+    newObject[key].prep_time = newObject[key].prep_time.reduce((acc, cur) => {
+      if (cur > acc) {
+        acc = cur;
+      }
+      return acc;
+    });
+  }
+
   return newArray;
 };
 
 const createOrderElementVendor = (ordersData) => {
   let orderStatus = 'no status';
   const id = Object.keys(ordersData);
+  const date = ordersData[id].order_end.split(' ');
+  const year = Number(date[3]);
 
-  if (ordersData[id].order_end) {
+  if (year > 1980) {
     orderStatus = `Great job! This order is finished!`;
 
   } else {
-    orderStatus = `You have to finish this order until ${ordersData[id].order_start + ordersData[id].prep_time}`;
+    orderStatus = `You have ${ordersData[id].prep_time} min. to finish this order!`;
   }
 
   const $orderContainer = $('<div>').attr('id', 'vendor-order-container');
@@ -239,6 +250,7 @@ $(document).ready(() => {
 
   loadMenu();
 
+  // filter the food type when clicked on icon
   $('.food').click(function () {
     const filter = { type: $(this)['0'].id };
 
@@ -247,6 +259,7 @@ $(document).ready(() => {
         renderMenu(menu);
       });
   });
+
 
   const $orderIcon = $('.orders');
   $orderIcon.click((event) => {
@@ -260,10 +273,11 @@ $(document).ready(() => {
   }
   );
 
+  // to render vendor's page
   const $vendorsMain = $('#vendors-main');
 
   const loadVendorOrders = (() => {
-    $.ajax("/api/users/orders_admin", { method: 'GET' })
+    $.ajax("/api/users/orders_todo", { method: 'GET' })
       .then(function (data) {
         const orders = groupProductsByOrderId(data);
 
@@ -291,7 +305,7 @@ $(document).ready(() => {
   $currentOrderVendorIcon.click((event) => {
     event.preventDefault();
 
-    $.get('/api/users/orders_admin')
+    $.get('/api/users/orders_todo')
       .then((data) => {
         const orders = groupProductsByOrderId(data);
 

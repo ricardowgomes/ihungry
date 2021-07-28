@@ -1,20 +1,29 @@
 @import './variables';
 
 .cart {
+  h1 {
+    padding-left: 10px;
+  }
   @include displayFlex(flex-start, center, column);
-
+  display:none;
+  position: absolute;
+  background-color: $white;
+  width:100%;
+  height:100%;
   #cart-container {
+    margin:0 auto;
     @include displayFlex(flex-start, flex-end, column);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: $white;
-    width: 90%;
     padding: 1rem;
     color: $darkGray;
+    border:slategray;
+    border-width: 40px;
     // margin: 1.5rem;
     // width: 95%;
 
     .individual-item {
-      @include displayFlex(space-between, center);
+      @include displayFlex(space-between, center, row);
       width: 100%;
 
       h4 {

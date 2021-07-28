@@ -263,7 +263,8 @@ const insertNewOrder = function (userId) {
     .catch((err) => {
       err.message;
     });
-};
+}
+
 
 const checkIfUserIsAdmin = (userId) => {
   const queryParams = [userId];
@@ -281,4 +282,5 @@ const checkIfUserIsAdmin = (userId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllCurrentOrders, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin, getAllOrdersById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder, getAllCurrentOrdersById };
+module.exports = { getAllProducts, getAllCurrentOrders, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin, getAllOrdersById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder, getAllCurrentOrdersById, insertNewOrder };
+

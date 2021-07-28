@@ -49,9 +49,9 @@ const getAllProducts = (options, limit = 10) => {
     });
 };
 
-// Function get all past orders of a user
-const getAllPastOrdersById = (userId, limit = 10) => {
-  const queryParams = [userId, limit];
+// Function get current orders of a user
+const getAllOrdersById = (userId, limit = 20) => {
+  const queryParams = [userId];
 
   // Inicial string
   let queryString = `
@@ -67,50 +67,20 @@ const getAllPastOrdersById = (userId, limit = 10) => {
   FROM orders_products
   JOIN orders ON orders.id = orders_products.order_id
   JOIN products ON products.id = orders_products.product_id
-  WHERE user_id = $${userId}
-  AND orders.order_end IS NOT NULL `;
-
-  queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
-  console.log(queryString, queryParams);
-
-  return pool
-    .query(queryString, queryParams)
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      err.message;
-    });
-};
-
-// Function get current orders of a user
-const getCurrentOrderById = (userId, limit = 1) => {
-  const queryParams = [userId, limit];
-
-  // Inicial string
-  let queryString = `
-  SELECT
-  orders.id AS orderId,
-  products.name AS productName,
-  products.price AS productPrice,
-  orders_products.quantity AS quantity,
-  products.prep_time AS prepTime,
-  orders.order_created AS orderCreated,
-  orders.order_start AS orderStart,
-  orders.order_end AS orderEnd
-  FROM orders_products
-  JOIN orders ON orders.id = orders_products.order_id
-  JOIN products ON products.id = orders_products.product_id
-  WHERE user_id = $${userId}
-  AND orders.order_end IS NULL `;
+  AND orders.order_end IS NULL
+  WHERE orders.user_id = $${queryParams.length}`;
 
   queryParams.push(limit);
-
   queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
 
   return pool
     .query(queryString, queryParams)
     .then((result) => {
+
+      if (!result) {
+        return null;
+      }
+
       return result.rows;
     })
     .catch((err) => {
@@ -214,21 +184,21 @@ const sumofOrderById = (orderId) => {
 };
 
 
-const getItemsFromCart = function(cartID) {
-  const queryString = `SELECT * from products_carts WHERE cart_id = ${cartID};`
+const getItemsFromCart = function (cartID) {
+  const queryString = `SELECT * from products_carts WHERE cart_id = ${cartID};`;
   return pool
     .query(queryString)
     .catch((err) => {
       err.message;
     });
-}
+};
 
-const insertCartOrder = function(orderId, cartItems) {
+const insertCartOrder = function (orderId, cartItems) {
   let queryString = 'INSERT INTO orders_products (order_id, product_id,quantity) VALUES';
   for (items of cartItems) {
-    queryString += ` (${orderId},${items.product_id},${items.quantity}),`
+    queryString += ` (${orderId},${items.product_id},${items.quantity}),`;
   }
-  queryString = queryString.slice(0,-1);
+  queryString = queryString.slice(0, -1);
   queryString += ';';
   console.log(queryString);
   return pool
@@ -236,30 +206,26 @@ const insertCartOrder = function(orderId, cartItems) {
     .catch((err) => {
       err.message;
     });
-}
+};
 
-const emptyCart = function(cartid) {
-  const queryString = `DELETE FROM products_carts WHERE cart_id = ${cartid}`
+const emptyCart = function (cartid) {
+  const queryString = `DELETE FROM products_carts WHERE cart_id = ${cartid}`;
   return pool
     .query(queryString)
     .catch((err) => {
       err.message;
     });
 
-}
+};
 
-const insertNewOrder = function(userId) {
-  const queryString = `INSERT INTO orders (user_id) VALUES (${userId}) RETURNING orders.id`
+const insertNewOrder = function (userId) {
+  const queryString = `INSERT INTO orders (user_id) VALUES (${userId}) RETURNING orders.id`;
   return pool
     .query(queryString)
     .catch((err) => {
       err.message;
     });
-}
-
-
-
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder};
+};
 
 const checkIfUserIsAdmin = (userId) => {
   const queryParams = [userId];
@@ -277,5 +243,4 @@ const checkIfUserIsAdmin = (userId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin };
-
+module.exports = { getAllProducts, getAllCurrentOrders, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin, getAllOrdersById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder };

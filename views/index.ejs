@@ -32,9 +32,6 @@
   <%- include('partials/_header') %>
 
     <main>
-      <div id='vendors-main'></div>'>
-      </div>
-
       <%- include('partials/_product-view') %>
 
         <%- include('partials/_cart') %>
@@ -42,9 +39,6 @@
           <%- include('./partials/_type-cards') %>
             <div id="products">
             </div>
-
-
-
 
             <section class="orders">
               <div id="current-order">
@@ -64,13 +58,11 @@
               <%- include('partials/_orders') %>
             </section>
 
-            <!-- <div class="modal vendor">
-        <%- include('partials/_vendor') %>
-      </div> -->
 
-            <!-- <div class="modal cart">
-        <%- include('partials/_cart') %>
-      </div> -->
+
+            <div class="modal cart">
+              <%- include('partials/_cart') %>
+            </div>
 
     </main>
 
@@ -91,8 +83,6 @@
         <i class="fas fa-envelope"></i>
       </a>
     </nav>
-
-
 
 </body>
 

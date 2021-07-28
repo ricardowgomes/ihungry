@@ -125,26 +125,29 @@ const getAllCurrentOrders = (limit = 10) => {
   // Inicial string
   let queryString = `
   SELECT
-  orders.id AS orderId,
-  products.name AS productName,
-  products.price AS productPrice,
+  orders.id AS order_id,
+  products.name AS product_name,
+  products.price AS product_price,
   orders_products.quantity AS quantity,
-  products.prep_time AS prepTime,
-  orders.order_created AS orderCreated,
-  orders.order_start AS orderStart,
-  orders.order_end AS orderEnd
+  products.prep_time AS prep_time,
+  orders.order_created AS order_created,
+  orders.order_start AS order_start,
+  orders.order_end AS order_end
   FROM orders_products
   JOIN orders ON orders.id = orders_products.order_id
   JOIN products ON products.id = orders_products.product_id
-  WHERE orders.order_end IS NULL `;
-
-  queryParams.push(limit);
+  AND orders.order_end IS NULL `;
 
   queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
 
   return pool
     .query(queryString, queryParams)
     .then((result) => {
+
+      if (!result) {
+        return null;
+      }
+
       return result.rows;
     })
     .catch((err) => {
@@ -152,32 +155,35 @@ const getAllCurrentOrders = (limit = 10) => {
     });
 };
 
-const getAllPastOrders = (limit = 10) => {
+const getAllPastOrders = (limit = 20) => {
   const queryParams = [limit];
 
   // Inicial string
   let queryString = `
   SELECT
-  orders.id AS orderId,
-  products.name AS productName,
-  products.price AS productPrice,
+  orders.id AS order_id,
+  products.name AS product_name,
+  products.price AS product_price,
   orders_products.quantity AS quantity,
-  products.prep_time AS prepTime,
-  orders.order_created AS orderCreated,
-  orders.order_start AS orderStart,
-  orders.order_end AS orderEnd
+  products.prep_time AS prep_time,
+  orders.order_created AS order_created,
+  orders.order_start AS order_start,
+  orders.order_end AS order_end
   FROM orders_products
   JOIN orders ON orders.id = orders_products.order_id
   JOIN products ON products.id = orders_products.product_id
-  WHERE orders.order_end IS NOT NULL `;
-
-  queryParams.push(limit);
+  AND orders.order_end IS NOT NULL `;
 
   queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
 
   return pool
     .query(queryString, queryParams)
     .then((result) => {
+
+      if (!result) {
+        return null;
+      }
+
       return result.rows;
     })
     .catch((err) => {
@@ -207,4 +213,20 @@ const sumofOrderById = (orderId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById };
+const checkIfUserIsAdmin = (userId) => {
+  const queryParams = [userId];
+
+  // Inicial string
+  let queryString = `SELECT is_admin FROM users WHERE id = $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin };

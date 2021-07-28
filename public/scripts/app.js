@@ -294,6 +294,7 @@ $(document).ready(() => {
 
     $.get('/api/users/orders_admin')
       .then((data) => {
+        // console.log(data);
         const orders = groupProductsByOrderId(data);
 
         renderVendorOrders(orders);

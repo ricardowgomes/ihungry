@@ -49,8 +49,46 @@ const getAllProducts = (options, limit = 10) => {
     });
 };
 
-// Function get current orders of a user
+// Function get past orders of a user
 const getAllOrdersById = (userId, limit = 20) => {
+  const queryParams = [userId];
+
+  // Inicial string
+  let queryString = `
+  SELECT
+  orders.id AS order_id,
+  products.name AS product_name,
+  products.price AS product_price,
+  orders_products.quantity AS quantity,
+  products.prep_time AS prep_time,
+  orders.order_created AS order_created,
+  orders.order_start AS order_start,
+  orders.order_end AS order_end
+  FROM orders_products
+  JOIN orders ON orders.id = orders_products.order_id
+  JOIN products ON products.id = orders_products.product_id
+  AND orders.order_end IS NOT NULL
+  WHERE orders.user_id = $${queryParams.length}`;
+
+  queryParams.push(limit);
+  queryString += `ORDER BY orders.order_end LIMIT $${queryParams.length};`;
+
+  return pool
+    .query(queryString, queryParams)
+    .then((result) => {
+
+      if (!result) {
+        return null;
+      }
+
+      return result.rows;
+    })
+    .catch((err) => {
+      err.message;
+    });
+};
+
+const getAllCurrentOrdersById = (userId, limit = 5) => {
   const queryParams = [userId];
 
   // Inicial string
@@ -243,4 +281,4 @@ const checkIfUserIsAdmin = (userId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllCurrentOrders, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin, getAllOrdersById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder };
+module.exports = { getAllProducts, getAllCurrentOrders, getAllPastOrders, sumofOrderById, checkIfUserIsAdmin, getAllOrdersById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder, getAllCurrentOrdersById };

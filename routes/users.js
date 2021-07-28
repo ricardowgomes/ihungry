@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
+const { getAllOrdersById, getAllCurrentOrders, getAllCurrentOrdersById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -90,25 +90,6 @@ module.exports = (db) => {
 
   });
 
-
-  router.get("/orders", (req, res) => {
-    const userId = req.cookies.user_id;
-
-    getAllPastOrdersById(userId)
-      .then(data => {
-        const pastOrders = data.rows;
-        res.json(pastOrders);
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-
-
-  });
-
-
   router.get("/orders_admin", (req, res) => {
     getAllPastOrders()
       .then(data => {
@@ -136,10 +117,15 @@ module.exports = (db) => {
   });
 
   router.get("/orders", (req, res) => {
-    getAllOrdersById()
-      .then(data => {
-        const currentOrders = data;
-        res.json(currentOrders);
+    const userId = req.cookies.user_id;
+
+    Promise.all([
+      getAllOrdersById(userId),
+      getAllCurrentOrdersById(userId)
+    ])
+      .then((result) => {
+        const [pastOrders, currentOrders] = result;
+        res.json({ pastOrders, currentOrders });
       })
       .catch(err => {
         res

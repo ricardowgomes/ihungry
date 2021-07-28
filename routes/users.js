@@ -86,6 +86,18 @@ module.exports = (db) => {
 
   });
 
+  router.get("/orders_admin", (req, res) => {
+    getAllPastOrders()
+      .then(data => {
+        const pastOrders = data;
+        res.json(pastOrders);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
 
   return router;
 };

@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById } = require("./helperFunctions");
+const { getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -35,7 +35,6 @@ module.exports = (db) => {
 
   // using cookie to get user ID, then use the user ID to get cart ID for the user, then use the cart ID to retrieve the product data inside the cart
   router.get("/shoppingCart", (req, res) => {
-    console.log(req.cookies.user_id)
     db.query(`SELECT carts.id FROM carts WHERE carts.user_id = ${req.cookies.user_id}`)
       .then(cart_id => {
         db.query(`SELECT products_carts.id AS productInCartID, carts.id AS CartID, products.name AS item, quantity AS qnty, products.price * quantity AS price, products.id AS productID
@@ -64,14 +63,36 @@ module.exports = (db) => {
   // delete item from cart
   router.post("/shoppingCart/delete", (req, res) => {
     const itemId = req.body.itemid;
-    console.log(itemId);
-    db.query(`DELETE FROM products_carts WHERE id = ${itemId}`);
-
+    db.query(`DELETE FROM products_carts WHERE id = ${itemId}`)
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
+
+  router.post("/shoppingCart/submitOrder", (req, res) => {
+    const cartId = req.body.cartId;
+    const userId = req.cookies.user_id;
+    const newOrderId = insertNewOrder(userId);
+    const cartItems = getItemsFromCart(cartId);
+    Promise.all([newOrderId,cartItems])
+      .then((values) => {
+        insertCartOrder(values[0].rows[0].id,values[1].rows)
+        emptyCart(cartId)//empty cart
+        res.json(values[0].rows[0].id) //return new order id
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+
+  })
+
 
   router.get("/orders", (req, res) => {
     const userId = req.cookies.user_id;
-    console.log(userId);
 
     getAllPastOrdersById(userId)
       .then(data => {
@@ -86,7 +107,6 @@ module.exports = (db) => {
 
 
   });
-
 
   return router;
 };

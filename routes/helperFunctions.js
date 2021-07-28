@@ -207,4 +207,49 @@ const sumofOrderById = (orderId) => {
     });
 };
 
-module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById };
+const getItemsFromCart = function(cartID) {
+  const queryString = `SELECT * from products_carts WHERE cart_id = ${cartID};`
+  return pool
+    .query(queryString)
+    .catch((err) => {
+      err.message;
+    });
+}
+
+const insertCartOrder = function(orderId, cartItems) {
+  let queryString = 'INSERT INTO orders_products (order_id, product_id,quantity) VALUES';
+  for (items of cartItems) {
+    queryString += ` (${orderId},${items.product_id},${items.quantity}),`
+  }
+  queryString = queryString.slice(0,-1);
+  queryString += ';';
+  console.log(queryString);
+  return pool
+    .query(queryString)
+    .catch((err) => {
+      err.message;
+    });
+}
+
+const emptyCart = function(cartid) {
+  const queryString = `DELETE FROM products_carts WHERE cart_id = ${cartid}`
+  return pool
+    .query(queryString)
+    .catch((err) => {
+      err.message;
+    });
+
+}
+
+const insertNewOrder = function(userId) {
+  const queryString = `INSERT INTO orders (user_id) VALUES (${userId}) RETURNING orders.id`
+  return pool
+    .query(queryString)
+    .catch((err) => {
+      err.message;
+    });
+}
+
+
+
+module.exports = { getAllProducts, getAllPastOrdersById, getAllCurrentOrders, getCurrentOrderById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder};

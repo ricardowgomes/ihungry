@@ -260,6 +260,20 @@ $(document).ready(() => {
   }
   );
 
+  const $vendorsMain = $('#vendors-main');
+
+  const loadVendorOrders = (() => {
+    $.ajax("/api/users/orders_admin", { method: 'GET' })
+      .then(function (data) {
+        const orders = groupProductsByOrderId(data);
+
+        renderVendorOrders(orders);
+        $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
+      });
+  });
+
+  loadVendorOrders();
+
   const $pastOrderVendorIcon = $('.orders-vendor');
   $pastOrderVendorIcon.click((event) => {
     event.preventDefault();
@@ -269,8 +283,23 @@ $(document).ready(() => {
         const orders = groupProductsByOrderId(data);
 
         renderVendorOrders(orders);
-        $('#vendors-main').prepend(`<h4>Orders completed:</h4>`);
+        $vendorsMain.prepend(`<h3>Orders completed:</h3>`);
       });
-
   });
+
+  const $currentOrderVendorIcon = $('.todo-orders');
+  $currentOrderVendorIcon.click((event) => {
+    event.preventDefault();
+
+    $.get('/api/users/orders_admin')
+      .then((data) => {
+        const orders = groupProductsByOrderId(data);
+
+        renderVendorOrders(orders);
+        $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
+      });
+  });
+
+
+
 });

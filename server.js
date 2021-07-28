@@ -65,10 +65,8 @@ app.get("/", (req, res) => {
   checkIfUserIsAdmin(userId)
     .then((data) => {
       const isAdmin = data.is_admin;
-      console.log('Is admin?', isAdmin);
 
       if (isAdmin) {
-        console.log('Find a new route for me');
         res.render("vendor");
       }
 

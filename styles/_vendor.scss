@@ -45,6 +45,18 @@
       font-style: italic;
       font-weight: 200;
     }
+
+    .items-ordered {
+      @include displayFlex(space-between, center);
+
+      .products-name {
+        font-weight: 600;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 95px;
+    }
   }
 }
 

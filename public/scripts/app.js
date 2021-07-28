@@ -105,7 +105,7 @@ const groupProductsByOrderId = (arrayOfObjects) => {
     }
 
     newObject[object.order_id].product_name.push(object.product_name);
-    newObject[object.order_id].product_price.push(object.product_price);
+    newObject[object.order_id].product_price.push(Number(object.product_price) * Number(object.quantity));
     newObject[object.order_id].quantity.push(object.quantity);
     newObject[object.order_id].prep_time.push(object.prep_time);
     // newObject[object.order_id].order_created.push(object.order_created);
@@ -145,13 +145,13 @@ const createOrderElementVendor = (ordersData) => {
 
   const $itemsOrdered = $('<div>').addClass('items-ordered');
   const $quantity = $('<ul>');
-  const $products = $('<ul>');
+  const $products = $('<ul>').addClass('products-name');
   const $prices = $('<ul>');
 
-  quantity.forEach(item => $quantity.append(`<p>${item}</p>`));
+
+  quantity.forEach(item => $quantity.append(`<p>x${item}</p>`));
   products.forEach(item => $products.append(`<p>${item}</p>`));
-  prices.forEach(item => $prices.append(`<p>${item}</p>`));
-  console.log('>>>', quantity, products, prices);
+  prices.forEach(item => $prices.append(`<p>$${item}</p>`));
 
   $itemsOrdered.append($quantity);
   $itemsOrdered.append($products);
@@ -163,7 +163,7 @@ const createOrderElementVendor = (ordersData) => {
   const totals = `<span><p>Subtotal</p><p>$${subTotal}</p></span >
         <hr>
           <span><p>Delivery</p><p>Pickup</p></span>
-          <span><p>GST (5%)</p><p>$${subTotal * 0.05}</p></span><span>
+          <span><p>GST (5%)</p><p>$${Math.floor(subTotal * 0.05 * 100) / 100}</p></span><span>
             <p>Total (CAD)</p><p> $${Math.floor((subTotal * 0.05 + subTotal) * 100) / 100}</p></span>`;
 
   $orderContainer.append(totals);

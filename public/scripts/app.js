@@ -357,7 +357,7 @@ const createCurrentOrderElement = (ordersData) => {
 
 const renderOrders = (orders) => {
   const $main = $('#main-html');
-  $main.empty();
+  // $main.empty();
 
   $main.append(`<div id='past-orders'></div>`);
   const $div = $('#past-orders');
@@ -436,6 +436,8 @@ $(document).ready(() => {
     $.post('/api/users/addToCart/', productId, (res) => {
     });
     $('#product').slideUp("slow");
+    $('#food-type').slideDown("slow");
+    $('#products').slideDown("slow");
   });
 
   // load cart from the server
@@ -453,11 +455,15 @@ $(document).ready(() => {
 
   // GET cart information and render
   $('.shopping-cart').on('click', function() {
+    $('.orders-main').slideUp(100);
+    $('#past-orders').slideUp(100);
     loadCart();
     if ($('.cart').is(":hidden")) {
       $('.cart').slideDown("slow");
     } else if ($('.cart').is(":visible")) {
       $('.cart').slideUp("slow");
+      $('#food-type').slideDown("slow");
+      $('#products').slideDown("slow");
     }
 
   });
@@ -552,7 +558,8 @@ $(document).ready(() => {
     $.get('/api/users/orders')
       .then((data) => {
         const { pastOrders, currentOrders } = data;
-
+        $('#food-type').slideUp("slow");
+        $('#products').slideUp("slow");
         renderOrders(groupProductsByOrderId(pastOrders));
         $('#past-orders').prepend(`<h3>Past orders:</h3>`);
         renderCurrentOrders(groupProductsByOrderId(currentOrders));

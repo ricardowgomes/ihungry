@@ -37,8 +37,8 @@ const messageRestaurant = (orderId, customer) => {
      })
 };
 
-const messageOrderReady = (customer) => {
-  const text = `Your order is ready for pickup ${customer}!`;
+const messageOrderReady = (orderId) => {
+  const text = `Your order ${orderId} is ready for pickup!`;
   twilio.messages
     .create({
        body: text,

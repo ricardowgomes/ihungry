@@ -158,6 +158,7 @@ module.exports = (db) => {
       .then(data => {
         const currentOrders = data[1];
         res.json(currentOrders);
+        messageOrderReady(orderId);
       })
       .catch(err => {
         res

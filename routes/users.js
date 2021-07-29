@@ -8,7 +8,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAllOrdersById, getAllCurrentOrders, getAllCurrentOrdersById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder, getUserName } = require("./helperFunctions");
-// const { messageCustomer, messageRestaurant, messageOrderReady } = require("./twilioFunctions");
+const { messageCustomer, messageRestaurant, messageOrderReady } = require("./twilioFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {

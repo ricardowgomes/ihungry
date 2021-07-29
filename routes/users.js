@@ -30,11 +30,11 @@ module.exports = (db) => {
     db.query(`SELECT id FROM carts WHERE user_id = ${userId}`)
       .then((cartId) => {
         db.query(`INSERT INTO products_carts (cart_id, product_id, quantity) VALUES (${cartId.rows[0].id},${req.body.product_id},1)`)
-        .catch(err => {
-          res
-            .status(500)
-            .json({ error: err.message });
-        });
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          });
       })
       .catch(err => {
         res
@@ -100,7 +100,6 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-
   });
 
   router.get("/orders_admin", (req, res) => {
@@ -139,6 +138,26 @@ module.exports = (db) => {
       .then((result) => {
         const [pastOrders, currentOrders] = result;
         res.json({ pastOrders, currentOrders });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.post("/order-done", (req, res) => {
+    const orderId = req.body.orderId;
+
+    const query = `DELETE FROM orders WHERE id = $1;`;
+
+    Promise.all([
+      db.query(query, [orderId]),
+      getAllCurrentOrders()
+    ])
+      .then(data => {
+        const currentOrders = data[1];
+        res.json(currentOrders);
       })
       .catch(err => {
         res

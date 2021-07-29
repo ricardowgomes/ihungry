@@ -1,0 +1,79 @@
+@import './variables';
+
+.modal-overlay {
+  @include displayFlex(center, center, column);
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(255, 253, 228, 0.872);
+
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: $white;
+  border-radius: 1rem;
+  padding: 2.4rem;
+  position: relative;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* FORM ========================== */
+#form {
+  max-width: 500px;
+  width: 100%;
+}
+
+#form h2 {
+  margin-top: 0;
+}
+
+input {
+  border: none;
+  border-radius: 0.2rem;
+
+  padding: 0.8rem;
+  width: 100%;
+}
+
+.input-group {
+  margin-top: 0.8rem;
+}
+
+.input-group small {
+  opacity: 0.4;
+
+  div:last-child {
+    align-items: center;
+  }
+}
+
+.input-group-btn {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: center;
+
+  .filter-btn {
+    background-color: $lightGreen;
+    color: $white;
+    border: none;
+    width: 40%;
+    border-radius: 1rem;
+  }
+}
+

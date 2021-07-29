@@ -1,0 +1,47 @@
+const Modal = {
+openModal() {
+document
+.querySelector(".modal-overlay")
+.classList
+.add("active")
+},
+
+closeModal() {
+document
+.querySelector(".modal-overlay")
+.classList.remove("active")
+}
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+
+
+
+
+
+  const Form = {
+  description: document.querySelector("input#description"),
+  type: document.querySelector("input#type"),
+  amount: document.querySelector("input#amount"),
+  date: document.querySelector("input#date"),
+
+  getValues() {
+  return {
+  description: Form.description.value,
+  type: Form.type.value,
+  amount: Form.amount.value,
+  date: Form.date.value
+  }
+  },

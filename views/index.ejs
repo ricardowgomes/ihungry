@@ -43,6 +43,42 @@
           <div id="products">
           </div>
 
+          <div class="modal-overlay">
+            <div class="modal">
+              <div id="form">
+                <h3>What do you wanna eat?</h3>
+                <form action="" onsubmit="Form.submit(event)">
+                  <div class="input-group">
+                    <label class="sr-only" for="food-type">Something delicious</label>
+                    <input list="food-type" placeholder="Choose something">
+                    <datalist id="food-type">
+                      <option value="Burger" />
+                      <option value="Pizza" />
+                      <option value="Wings" />
+                      <option value="Drinks" />
+                      <option value="Dessert" />
+                    </datalist>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="min-price">Minimum Price</label>
+                    <span>$</span>
+                    <input type="number" id="min-price" name="min-price">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="max-price">Maximum Price</label>
+                    <span>$</span>
+                    <input type="number" id="max-price" name="max-price">
+                  </div>
+
+                  <div class="input-group-btn">
+                    <button class="filter-btn">Filter</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
 
     </main>
 

@@ -133,6 +133,7 @@ module.exports = (db) => {
       getAllCurrentOrdersById(userId)
     ])
       .then((result) => {
+        console.log(result);
         const [pastOrders, currentOrders] = result;
         res.json({ pastOrders, currentOrders });
       })

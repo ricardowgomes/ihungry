@@ -421,7 +421,15 @@ $(document).ready(() => {
       .then(orderId => {
         $.get('/api/users/orders')
           .then((data) => {
-            renderVendorOrders(data);
+            const { pastOrders, currentOrders } = data;
+
+            renderOrders(groupProductsByOrderId(pastOrders));
+            $('#vendors-main').prepend(`<h3>Past orders:</h3>`);
+            renderCurrentOrders(groupProductsByOrderId(currentOrders));
+            $('.orders-main').prepend(`<h3>Current orders:</h3>`);
+
+            // Create a countdown for the current order
+            countDown();
           });
       });
   });

@@ -88,7 +88,7 @@ const getAllOrdersById = (userId, limit = 20) => {
     });
 };
 
-const getAllCurrentOrdersById = (userId, limit = 5) => {
+const getAllCurrentOrdersById = (userId, limit = 100) => {
   const queryParams = [userId];
 
   // Inicial string

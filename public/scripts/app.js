@@ -1,4 +1,4 @@
-const renderMenu = function (menuItems) {
+const renderMenu = function(menuItems) {
   // Code to work with menu items in object format to render them on client side
   $('#products').empty();
   for (const item of menuItems.menu) {
@@ -24,7 +24,7 @@ const createProductElement = (menuData) => {
 };
 
 //render product view for a single product
-const renderProductDetail = function (productData) {
+const renderProductDetail = function(productData) {
   // Code to work with menu items in object format to render them on client side
   $('#product').empty();
   $('#product').append(createProductView(productData));
@@ -51,7 +51,7 @@ const createProductView = (productData) => {
   `;
 };
 
-const renderCart = function (cartData, totalPrice) {
+const renderCart = function(cartData, totalPrice) {
   $('#cart-container').empty();
   for (const item of cartData) {
     const $itemData = createCartElement(item);
@@ -70,7 +70,7 @@ const renderCart = function (cartData, totalPrice) {
         <button id='checkout' type='submit'>
           Submit Order
         </button>
-        <h1 hidden id="cartid">${cartData[0].cartid}</h1>
+        <h2 hidden id="cartid">${cartData[0].cartid}</h2>
       </div>
     `);
   }
@@ -359,8 +359,8 @@ const renderOrders = (orders) => {
   const $main = $('#main-html');
   $main.empty();
 
-  $main.append(`<div id='vendors-main'></div>`);
-  const $div = $('#vendors-main');
+  $main.append(`<div id='past-orders'></div>`);
+  const $div = $('#past-orders');
 
   for (const item of orders) {
     const $itemData = createOrderElement(item);
@@ -406,13 +406,13 @@ $(document).ready(() => {
   // load menu from the server
   const loadMenu = (() => {
     $.ajax("/api/users/", { method: 'GET' })
-      .then(function (menu) {
+      .then(function(menu) {
         renderMenu(menu);
       });
   });
 
   //show product detail upon clicking on the product in menu
-  $('#products').on("click", ".product-card", function () {
+  $('#products').on("click", ".product-card", function() {
     const productId = { id: $(this)['0'].id };
     return $.post('/api/widgets/product_view', productId)
       .then((productData) => {
@@ -424,14 +424,14 @@ $(document).ready(() => {
   });
 
   //put away product detail and go back to menu
-  $('#product').on("click", ".return-to-menu", function () {
+  $('#product').on("click", ".return-to-menu", function() {
     $('#product').slideUp("slow");
     $('#food-type').slideDown("slow");
     $('#products').slideDown("slow");
   });
 
   //add to cart button, send product information to server to add product to cart in db
-  $('#product').on('click', '#add-to-cart-button', function () {
+  $('#product').on('click', '#add-to-cart-button', function() {
     productId = { product_id: $(this)['0'].parentElement.id };
     $.post('/api/users/addToCart/', productId, (res) => {
     });
@@ -452,7 +452,7 @@ $(document).ready(() => {
   });
 
   // GET cart information and render
-  $('.shopping-cart').on('click', function () {
+  $('.shopping-cart').on('click', function() {
     loadCart();
     if ($('.cart').is(":hidden")) {
       $('.cart').slideDown("slow");
@@ -463,14 +463,14 @@ $(document).ready(() => {
   });
 
   //delete item from cart
-  $('#cart-container').on('click', '.delete-from-cart', function () {
+  $('#cart-container').on('click', '.delete-from-cart', function() {
     const itemId = { itemid: $(this)['0'].parentElement.id };
     $.post('/api/users/shoppingCart/delete', itemId)
       .then(loadCart());
   });
 
   //Submit order from cart
-  $('#cart-container').on('click', '#checkout', function () {
+  $('#cart-container').on('click', '#checkout', function() {
     const cartId = { cartId: $('#cartid')['0'].innerText };
     $.post('/api/users/shoppingCart/submitOrder', cartId)
       .then(orderId => {
@@ -491,7 +491,7 @@ $(document).ready(() => {
 
 
   // filter the food type when clicked on icon
-  $('.food').click(function () {
+  $('.food').click(function() {
     const filter = { type: $(this)['0'].id };
 
     return $.post('/api/widgets/', filter)
@@ -507,7 +507,7 @@ $(document).ready(() => {
 
   const loadVendorOrders = (() => {
     $.ajax("/api/users/orders_todo", { method: 'GET' })
-      .then(function (data) {
+      .then(function(data) {
         const orders = groupProductsByOrderId(data);
 
         renderVendorOrders(orders, createCurrentOrderElementVendor);
@@ -554,7 +554,7 @@ $(document).ready(() => {
         const { pastOrders, currentOrders } = data;
 
         renderOrders(groupProductsByOrderId(pastOrders));
-        $('#vendors-main').prepend(`<h3>Past orders:</h3>`);
+        $('#past-orders').prepend(`<h3>Past orders:</h3>`);
         renderCurrentOrders(groupProductsByOrderId(currentOrders));
         $('.orders-main').prepend(`<h3>Current orders:</h3>`);
 
@@ -564,7 +564,7 @@ $(document).ready(() => {
   });
 
   // const $buttonOrderDone = $('.order-done');
-  $(document).on("click", '.order-done', function () {
+  $(document).on("click", '.order-done', function() {
     const buttonId = $(this).attr("id");
 
     const orderId = { orderId: buttonId };

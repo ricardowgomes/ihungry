@@ -48,7 +48,7 @@ const createProductView = (productData) => {
     <button type="submit" id="add-to-cart-button">Add to cart</button>
     <button type="submit" class="return-to-menu">Back</button
   </div>
-  `
+  `;
 };
 
 const renderCart = function (cartData, totalPrice) {
@@ -57,7 +57,7 @@ const renderCart = function (cartData, totalPrice) {
     const $itemData = createCartElement(item);
     $('#cart-container').append($itemData);
   }
-  if(!cartData[0]) {
+  if (!cartData[0]) {
     $('#cart-container').append(`
       <div class="empty_cart">
         <h4>Cart is empty!</h4>
@@ -190,12 +190,67 @@ const createOrderElementVendor = (ordersData) => {
   return $orderContainer;
 };
 
-const renderVendorOrders = (orders) => {
+const createCurrentOrderElementVendor = (ordersData) => {
+  let orderStatus = 'no status';
+  const id = Object.keys(ordersData);
+  const date = ordersData[id].order_end.split(' ');
+  const year = Number(date[3]);
+
+  if (year > 1980) {
+    orderStatus = `Great job! This order is finished!`;
+
+  } else {
+    orderStatus = `You have ${ordersData[id].prep_time} min. to finish this order!`;
+  }
+
+  const $orderContainer = $('<div>').attr('id', 'vendor-order-container').addClass('vendor-order-container');
+
+  $orderContainer.append(`<span><p id='order_id'>#${id}</p><p>${orderStatus}</p></span>
+    <hr>
+    <span>${ordersData[id].order_created}</span>`);
+
+  const quantity = ordersData[id].quantity;
+  const products = ordersData[id].product_name;
+  const prices = ordersData[id].product_price;
+
+  const $itemsOrdered = $('<div>').addClass('items-ordered');
+  const $quantity = $('<ul>');
+  const $products = $('<ul>').addClass('products-name');
+  const $prices = $('<ul>');
+
+
+  quantity.forEach(item => $quantity.append(`<p>x${item}</p>`));
+  products.forEach(item => $products.append(`<p>${item}</p>`));
+  prices.forEach(item => $prices.append(`<p>$${item}</p>`));
+
+  $itemsOrdered.append($quantity);
+  $itemsOrdered.append($products);
+  $itemsOrdered.append($prices);
+
+  $orderContainer.append($itemsOrdered);
+
+  const subTotal = ordersData[id].price_sum;
+  const totals = `<span><p>Subtotal</p><p>$${subTotal}</p></span >
+        <hr>
+          <span><p>Delivery</p><p>Pickup</p></span>
+          <span><p>GST (5%)</p><p>$${Math.floor(subTotal * 0.05 * 100) / 100}</p></span><span>
+            <p>Total (CAD)</p><p> $${Math.floor((subTotal * 0.05 + subTotal) * 100) / 100}</p></span>`;
+
+  $orderContainer.append(totals);
+
+  const $button = $('<button>').attr('id', `${id}`).addClass(`order-done`);
+  $button.append('DONE');
+  $orderContainer.append($button);
+
+  return $orderContainer;
+};
+
+const renderVendorOrders = (orders, callback) => {
   const $div = $('#vendors-main');
   $div.empty();
 
   for (const item of orders) {
-    const $itemData = createOrderElementVendor(item);
+    const $itemData = callback(item);
     $('#vendors-main').append($itemData);
   }
 };
@@ -369,11 +424,11 @@ $(document).ready(() => {
   });
 
   //put away product detail and go back to menu
-  $('#product').on("click", ".return-to-menu", function() {
+  $('#product').on("click", ".return-to-menu", function () {
     $('#product').slideUp("slow");
     $('#food-type').slideDown("fast");
     $('#products').slideDown("fast");
-  })
+  });
 
   //add to cart button, send product information to server to add product to cart in db
   $('#product').on('click', '#add-to-cart-button', function () {
@@ -455,7 +510,7 @@ $(document).ready(() => {
       .then(function (data) {
         const orders = groupProductsByOrderId(data);
 
-        renderVendorOrders(orders);
+        renderVendorOrders(orders, createCurrentOrderElementVendor);
         $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
       });
   });
@@ -472,7 +527,7 @@ $(document).ready(() => {
         // console.log(data);
         const orders = groupProductsByOrderId(data);
 
-        renderVendorOrders(orders);
+        renderVendorOrders(orders, createOrderElementVendor);
         $vendorsMain.prepend(`<h3>Orders completed:</h3>`);
       });
   });
@@ -485,7 +540,7 @@ $(document).ready(() => {
       .then((data) => {
         const orders = groupProductsByOrderId(data);
 
-        renderVendorOrders(orders);
+        renderVendorOrders(orders, createCurrentOrderElementVendor);
         $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
       });
   });
@@ -507,6 +562,21 @@ $(document).ready(() => {
         countDown();
       });
   });
+
+  // const $buttonOrderDone = $('.order-done');
+  $(document).on("click", '.order-done', function () {
+    const buttonId = $(this).attr("id");
+
+    const orderId = { orderId: buttonId };
+    $.post('/api/users/order-done', orderId)
+      .then((data) => {
+        const orders = groupProductsByOrderId(data);
+
+        renderVendorOrders(orders, createCurrentOrderElementVendor);
+        $vendorsMain.prepend(`<h3>You have orders to finish:</h3>`);
+      });
+  });
+
 });
 
 

@@ -371,8 +371,8 @@ $(document).ready(() => {
   //put away product detail and go back to menu
   $('#product').on("click", ".return-to-menu", function() {
     $('#product').slideUp("slow");
-    $('#food-type').slideDown("fast");
-    $('#products').slideDown("fast");
+    $('#food-type').slideDown("slow");
+    $('#products').slideDown("slow");
   })
 
   //add to cart button, send product information to server to add product to cart in db
@@ -380,7 +380,7 @@ $(document).ready(() => {
     productId = { product_id: $(this)['0'].parentElement.id };
     $.post('/api/users/addToCart/', productId, (res) => {
     });
-    $('#product').slideUp(5000);
+    $('#product').slideUp("slow");
   });
 
   // load cart from the server

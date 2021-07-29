@@ -7,7 +7,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { getAllOrdersById, getAllCurrentOrders, getAllCurrentOrdersById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder } = require("./helperFunctions");
+const { getAllOrdersById, getAllCurrentOrders, getAllCurrentOrdersById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder, getUserName } = require("./helperFunctions");
+const {messageCustomer, messageRestaurant, messageOrderReady } = require("./twilioFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -85,11 +86,14 @@ module.exports = (db) => {
     const userId = req.cookies.user_id;
     const newOrderId = insertNewOrder(userId);
     const cartItems = getItemsFromCart(cartId);
-    Promise.all([newOrderId, cartItems])
+    const userName = getUserName(userId);
+    Promise.all([newOrderId, cartItems, userName])
       .then((values) => {
         insertCartOrder(values[0].rows[0].id, values[1].rows);
         emptyCart(cartId);//empty cart
         res.json(values[0].rows[0].id); //return new order id
+        messageCustomer(values[2].name);
+        messageRestaurant(values[0].rows[0].id, values[2].name);
       })
       .catch(err => {
         res
@@ -133,7 +137,6 @@ module.exports = (db) => {
       getAllCurrentOrdersById(userId)
     ])
       .then((result) => {
-        console.log(result);
         const [pastOrders, currentOrders] = result;
         res.json({ pastOrders, currentOrders });
       })

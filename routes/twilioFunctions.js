@@ -49,11 +49,20 @@ const messageOrderReady = (customer) => {
 };
 
 
-  //  twilio.calls
-  //  .create({
-  //     url: 'http://demo.twilio.com/docs/voice.xml',
-  //     to: '+15877836295',
-  //     from: twilioNumber
-  //   })
-  //  .then(call => console.log(call.sid));
-module.exports = { messageCustomer, messageRestaurant, messageOrderReady};
+//    twilio.calls
+//    .create({
+//       url: 'http://demo.twilio.com/docs/voice.xml',
+//       to: '+17788772997',
+//       from: twilioNumber
+//     })
+//    .then(call => console.log(call.sid));
+// module.exports = { messageCustomer, messageRestaurant, messageOrderReady};
+//5875769783
+// 7788772997
+//5877836295
+const Timer = require('tiny-timer')
+
+const timer = new Timer()
+
+timer.on('tick', (ms) => console.log('tick', ms));
+timer.start(5000)

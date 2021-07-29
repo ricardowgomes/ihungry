@@ -8,7 +8,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAllOrdersById, getAllCurrentOrders, getAllCurrentOrdersById, getAllPastOrders, sumofOrderById, getItemsFromCart, insertCartOrder, emptyCart, insertNewOrder, getUserName } = require("./helperFunctions");
-const {messageCustomer, messageRestaurant, messageOrderReady } = require("./twilioFunctions");
+// const { messageCustomer, messageRestaurant, messageOrderReady } = require("./twilioFunctions");
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -149,7 +149,7 @@ module.exports = (db) => {
   router.post("/order-done", (req, res) => {
     const orderId = req.body.orderId;
 
-    const query = `DELETE FROM orders WHERE id = $1;`;
+    const query = `UPDATE orders SET order_end = CURRENT_TIMESTAMP WHERE id = $1;`;
 
     Promise.all([
       db.query(query, [orderId]),

@@ -56,3 +56,64 @@
   }
 }
 
+#past-orders {
+  @include displayFlex(flex-start, center, column);
+  margin-top: 2rem;
+  width: 100%;
+  color: $darkGray;
+
+  #vendor-order-container {
+    width: 90%;
+    background-color: $white;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+
+    .order-done {
+      margin: 0.5rem 6rem;
+      border: none;
+      border-radius: 5px;
+      width: 40%;
+      background-color: $lightGreen;
+      color: $white;
+      align-self: center;
+    }
+
+    span {
+      @include displayFlex(space-between, center);
+
+
+      p:nth-of-type(2) {
+        font-weight: 600;
+      }
+    }
+
+    hr {
+      margin: 0.5rem 0;
+      border: 0;
+      height: 0;
+      border-top: 1px solid $gold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    span:nth-of-type(2) {
+      @include displayFlex(center, center);
+      margin-bottom: 0.5rem;
+      font-style: italic;
+      font-weight: 200;
+    }
+
+    .items-ordered {
+      @include displayFlex(space-between, center);
+
+      .products-name {
+        font-weight: 600;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 100px;
+    }
+  }
+}

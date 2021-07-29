@@ -34,13 +34,14 @@
 
     <main id="main-html">
 
-      <%- include('partials/_product-view') %>
+      <div hidden id="product">
+      </div>
 
-        <%- include('partials/_cart') %>
+      <%- include('partials/_cart') %>
 
-          <%- include('./partials/_type-cards') %>
-            <div id="products">
-            </div>
+        <%- include('./partials/_type-cards') %>
+          <div id="products">
+          </div>
 
 
     </main>

@@ -18,15 +18,12 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 ## Client Side Experience
 ---------------------
 
-
 ![Client Side Experience](https://github.com/ricardowgomes/ihungry/blob/read-me/public/images/client_side_1.gif)
 ![Client Side Experience](https://github.com/ricardowgomes/ihungry/blob/read-me/public/images/client_side_2.gif)
 
 ## Restaurant Side Experience
 
-
-
-![Restaurant Side Experience](restaurant_side.gif)
+![Restaurant Side Experience](https://github.com/ricardowgomes/ihungry/blob/read-me/public/images/restaurant_side.gif)
 
 
 ## Database Design

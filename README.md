@@ -1,5 +1,5 @@
 # iHUNGRY - Food Pick-up Ordering App
-=========
+
 ### Midterm project for [Lighthouse Labs](https://github.com/lighthouse-labs) Immersive Web Development Bootcamp.
 
 A food ordering experience for a single restaurant. Hungry clients of this fictitious restaurant can visit its website, select one or more dishes and place an order for pick-up. They will receive a confirmation message when their order is placed and when it is ready for a pick-up.
@@ -12,7 +12,7 @@ Every time an order is placed the restaurant receives a notification via SMS.
 A modern telecomm API service Twilio is used to implement SMS communication from the website to the client and restaurant.
 
 # Final Product
-===================
+
 
 
 ## Client Side Experience
@@ -23,26 +23,26 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 ![Client Side Experience](https://github.com/ricardowgomes/ihungry/blob/read-me/public/images/client_side_2.gif)
 
 ## Restaurant Side Experience
------------------
+
 
 
 ![Restaurant Side Experience](restaurant_side.gif)
 
 
 ## Database Design
-------------------
+
 
 ![ERD](./db/ERD/ERD.png)
 
 
 ## Project Stack
------------------
+
 - **Front-End: HTML, SASS, JavaScript, jQuery**
 - **Back-End: Nodejs, Express, PSQL**
 
 
 ## Project Features
-------------------
+
 
 - Users can see the list of available menu items
 - Users can filter menu items by type
@@ -63,7 +63,7 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 
 
 ## Getting Started
-------------------
+
 
 1. Create the `.env`
 2. Update the .env file with your correct local information 
@@ -81,7 +81,6 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 
 
 ## Dependencies
-----------------
 
 - Node 10.x or above
 - NPM 5.x or above
@@ -97,7 +96,7 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 
 
 ## Collaboration
----------------
+
 - [Ricardo](https://github.com/ricardowgomes)
 - [William](https://github.com/williamwyj)
 - [Iuliia](https://github.com/juliasut)

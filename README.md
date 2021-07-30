@@ -2,7 +2,13 @@
 =========
 ### Midterm project for [Lighthouse Labs](https://github.com/lighthouse-labs) Immersive Web Development Bootcamp.
 
-iHungry is an app that allows clients to browse trough the restaurants menu, filter items by their type and price, and place an order for pick-up. Upon the order submission, the restaurant receives a text notification with the order number and the name of the customer while the customer receives a confirmation message with the estimated wait time.
+iHungry is an online app that allows clients to browse trough a restaurant's menu, see each item's details, filter items by their type, add or delete them from the cart, and place an order for pick-up. 
+
+Upon the order submission, the restaurant receives a text notification with the order number and the name of the customer while the customer receives a personalized text with an estimated wait time.
+
+Customer can visit  to check their current order information on and see a countdown timer. They can also visit the page with all their past orders.
+
+The restaurant's administrator sees all outstanding orders on their home page. Among order details, there is calculated time for each order's completion. When the order is ready, the administrator can confirm the pick-up. The customer will receive a confirmation text with their order number.
 
 
 

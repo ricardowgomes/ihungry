@@ -19,18 +19,19 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 ---------------------
 
 
-![]()
+![Client Side Experience]()
 
 ## Restaurant Side Experience
 -----------------
 
 
-![]()
+![Restaurant Side Experience]()
+![Restaurant Side Experience]()
 
 ## Database Design
 ------------------
 
-![](./db/ERD/ERD.png)
+![ERD](./db/ERD/ERD.png)
 
 
 ## Project Stack

@@ -14,25 +14,30 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 # Final Product
 ===================
 
+
 ## Client Side Experience
 ---------------------
+
 
 ![]()
 
 ## Restaurant Side Experience
 -----------------
 
+
 ![]()
 
 ## Database Design
 ------------------
 
-![]()
+![](./db/ERD/ERD.png)
+
 
 ## Project Stack
 -----------------
 - **Front-End: HTML, SASS, JavaScript, jQuery**
 - **Back-End: Nodejs, Express, PSQL**
+
 
 ## Project Features
 ------------------
@@ -53,12 +58,6 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 - Restaurant administraitor sees a prep time estimate for each order
 - Restaurant administraitor can submit the confirmation when the order is done
 - Restaurant administraitor can see the list of all past orders from all the customers
-
-
-
-
-
-
 
 
 ## Getting Started
@@ -94,8 +93,9 @@ A modern telecomm API service Twilio is used to implement SMS communication from
 - morgan
 - twilio
 
+
 ## Collaboration
 ---------------
-- ![Ricardo](https://github.com/ricardowgomes)
-- ![William](https://github.com/williamwyj)
-- ![Iuliia](https://github.com/juliasut)
+- [Ricardo](https://github.com/ricardowgomes)
+- [William](https://github.com/williamwyj)
+- [Iuliia](https://github.com/juliasut)

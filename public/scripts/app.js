@@ -470,7 +470,7 @@ $(document).ready(() => {
   });
 
   // GET cart information and render
-  $('.shopping-cart').on('click', function() {
+  $('.shopping-cart').on('click', function () {
     $('.orders-main').slideUp(100);
     $('#past-orders').slideUp(100);
     loadCart();
@@ -499,6 +499,10 @@ $(document).ready(() => {
         $.get('/api/users/orders')
           .then((data) => {
             const { pastOrders, currentOrders } = data;
+
+            $('.cart').slideUp("slow");
+            $('#food-type').slideUp("slow");
+            $('#products').slideUp("slow");
 
             renderOrders(groupProductsByOrderId(pastOrders));
             $('#vendors-main').prepend(`<h3>Past orders:</h3>`);
